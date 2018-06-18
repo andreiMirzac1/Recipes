@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="uxT-Jx-iPz" customClass="RecipeStepCell" customModule="Recipes" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uxT-Jx-iPz" id="5Gz-Au-j9e">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IPQ-LH-Zgj">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="48" id="K6C-YK-Jj3"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kyi-uX-VWh">
+                        <rect key="frame" x="48" y="5" width="317" height="33.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="IPQ-LH-Zgj" secondAttribute="bottom" constant="-0.5" id="4qD-DV-vuJ"/>
+                    <constraint firstItem="Kyi-uX-VWh" firstAttribute="top" secondItem="5Gz-Au-j9e" secondAttribute="top" constant="5" id="6lf-ih-U1E"/>
+                    <constraint firstAttribute="bottom" secondItem="Kyi-uX-VWh" secondAttribute="bottom" constant="5" id="Aaw-3B-Abc"/>
+                    <constraint firstItem="IPQ-LH-Zgj" firstAttribute="top" secondItem="5Gz-Au-j9e" secondAttribute="top" id="E5l-9w-lsC"/>
+                    <constraint firstItem="IPQ-LH-Zgj" firstAttribute="leading" secondItem="5Gz-Au-j9e" secondAttribute="leading" id="S9p-Bi-bQT"/>
+                    <constraint firstAttribute="trailing" secondItem="Kyi-uX-VWh" secondAttribute="trailing" constant="10" id="Z1g-yS-LuV"/>
+                    <constraint firstItem="Kyi-uX-VWh" firstAttribute="leading" secondItem="IPQ-LH-Zgj" secondAttribute="trailing" id="ago-Zy-35g"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="step" destination="Kyi-uX-VWh" id="baK-se-wca"/>
+                <outlet property="stepNumber" destination="IPQ-LH-Zgj" id="ekh-4w-135"/>
+            </connections>
+            <point key="canvasLocation" x="-110.5" y="-12"/>
+        </tableViewCell>
+    </objects>
+</document>

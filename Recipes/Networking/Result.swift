@@ -21,9 +21,12 @@ public enum Result<A> {
 
 extension Result {
     
-    public var value: A? {
-        guard case .success(let v) = self else { return nil }
-        return v
+    public init(_ value: A?, or error: NetworkServiceError) {
+        if let value = value {
+            self = .success(value)
+        } else {
+            self = .error(error)
+        }
     }
 }
 

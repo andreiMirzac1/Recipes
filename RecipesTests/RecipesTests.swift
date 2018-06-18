@@ -11,26 +11,124 @@ import XCTest
 
 class RecipesTests: XCTestCase {
     
+    var recipesViewModel: RecipesViewModel!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        let url = "recipes"
+        let resource = Resource<[Recipe]>(url: url)
+        let mockedService = MockNetworkService(networkService: NetworkService())
+        recipesViewModel = RecipesViewModel(networkService: mockedService, resource: resource)
+        recipesViewModel.loadRecipes()
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testCountAllRecipes() {
+        XCTAssert(recipesViewModel.allRecipes.count == 9, "Number of recipes doesn't match")
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testFilterShouldReturnNoResults() {
+        
+        let searchText = "Random search text that should return no results"
+        recipesViewModel.filterBy(searchText)
+        XCTAssert(recipesViewModel.filteredRecipes.isEmpty, "Expected empty recipe list")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testFilterResultsByRecipeName() {
+        
+        let searchText = "Roasted Asparagus"
+        recipesViewModel.filterBy(searchText)
+        
+        XCTAssert(recipesViewModel.filteredRecipes.count == 1, "Number of recipes doesn't match")
+        guard let recipe = recipesViewModel.filteredRecipes.first else {
+            XCTFail("Filtered results list is empty")
+            return
         }
+        
+        XCTAssert(recipe.name == searchText, "Wrong recipe name, should be equal with \(searchText)")
     }
     
+    func testFilterRecipeByIngredientKeyWord() {
+        
+        let searchText = "olive oil"
+        recipesViewModel.filterBy(searchText)
+        
+        XCTAssert(recipesViewModel.filteredRecipes.count == 1, "Number of recipes doesn't match")
+        guard let recipe = recipesViewModel.filteredRecipes.first else {
+            XCTFail("Filtered results list is empty")
+            return
+        }
+        
+        XCTAssert(recipe.name == "Roasted Asparagus", "Wrong recipe name should be equal with 'Roasted Asparagus'")
+    }
+    
+    func testFilterResultByStepsKeyWord() {
+        
+        let searchText = "Add rice"
+        
+        recipesViewModel.filterBy(searchText)
+        
+        XCTAssert(recipesViewModel.filteredRecipes.count == 1, "Number of recipes doesn't match")
+        guard let recipe = recipesViewModel.filteredRecipes.first else {
+            XCTFail("Filtered results list is empty")
+            return
+        }
+        
+        XCTAssert(recipe.name == "Curried Lentils and Rice", "Recipe name should be equal with 'Curried Lentils and Rice'")
+    }
+    
+    func testFilterResultByComplexityEasy() {
+        recipesViewModel.filterBy(Complexity.easy)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 3, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Roasted Asparagus", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultByComplexityMedium() {
+        recipesViewModel.filterBy(Complexity.medium)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 3, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Curried Lentils and Rice", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultByComplexityHard() {
+        recipesViewModel.filterBy(Complexity.hard)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 3, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Crock Pot Roast", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultByComplexityAll() {
+        recipesViewModel.filterBy(Complexity.all)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 0, "Number of recipes doesn't match")
+    }
+    
+    func testFilterResultByTimeLessThenTenMinutes() {
+        recipesViewModel.filterBy(Time.quick)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 1, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Curried chicken salad", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultByTimeBetweenTenAndTwentyMinutes() {
+        recipesViewModel.filterBy(Time.medium)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 1, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Roasted Asparagus", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultByTimeMoreThenTwentyMinutes() {
+        recipesViewModel.filterBy(Time.slow)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 7, "Number of recipes doesn't match")
+        XCTAssert(recipesViewModel.filteredRecipes[0].name == "Crock Pot Roast", "Recipe name doesn't match")
+    }
+    
+    func testFilterResultBySlowTimeComplexityHard() {
+        recipesViewModel.filterBy(Time.slow)
+        recipesViewModel.filterBy(Complexity.hard)
+        XCTAssert(recipesViewModel.filteredRecipes.count == 3, "Number of recipes doesn't match")
+    }
+    
+    func testFilterIsResetWhenComplexityAndTimeIsSetToAll() {
+        recipesViewModel.filterBy(Time.all)
+        recipesViewModel.filterBy(Complexity.all)
+        XCTAssert(recipesViewModel.isFilterReset, "Expected filter to be reset")
+    }
 }
+
+

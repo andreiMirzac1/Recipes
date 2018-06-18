@@ -13,13 +13,34 @@ public enum HttpMethod {
     case post
 }
 
-struct Resource<A: Codable> {
-    
+struct Resource<A> {
+
     public var url: String
     public var method: HttpMethod
+    public var parse: (Data) -> A?
     
-    public init(url: String, method: HttpMethod = .get) {
+    public init(url: String, parse: @escaping (Data) -> A?, method: HttpMethod = .get) {
         self.url = url
         self.method = method
+        self.parse = parse
     }
 }
+
+extension Resource {
+    var cacheKey: String {
+        return "cached_" + url.dropLast(5)
+    }
+}
+
+extension Resource where A: Codable {
+    init(url: String, method: HttpMethod = .get) {
+        self.url = url
+        self.method = method
+        self.parse = { data in
+            let decodedObject: A? = try? JSONDecoder().decode(A.self, from: data)
+            return decodedObject
+        }
+    }
+}
+
+

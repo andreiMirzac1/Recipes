@@ -8,10 +8,8 @@
 
 import Foundation
 
-
 struct Ingredient: Codable {
-    
     var quantity: String
     var name: String
-    var type: String  //TODO: make it an enum
+    var type: String
 }
