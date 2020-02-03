@@ -40,6 +40,7 @@
 		05BA4DB720D6BB21000DB787 /* RecipeStepCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA4DB620D6BB21000DB787 /* RecipeStepCell.swift */; };
 		05BA4DB920D6BB37000DB787 /* RecipeStepCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05BA4DB820D6BB37000DB787 /* RecipeStepCell.xib */; };
 		2D0AA98528645A6A377908E5 /* Pods_Recipes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796D4A206CD05D40A2BB6E01 /* Pods_Recipes.framework */; };
+		7FF9FF5F9A74135E859B599E /* Pods_RecipesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4449BEE8EA69C455DFCF4819 /* Pods_RecipesTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,10 +99,13 @@
 		05BA4DB420D6B61F000DB787 /* RecipeIngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeIngredientCell.xib; sourceTree = "<group>"; };
 		05BA4DB620D6BB21000DB787 /* RecipeStepCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStepCell.swift; sourceTree = "<group>"; };
 		05BA4DB820D6BB37000DB787 /* RecipeStepCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeStepCell.xib; sourceTree = "<group>"; };
+		4449BEE8EA69C455DFCF4819 /* Pods_RecipesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecipesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63DF399E9F891531D21089C0 /* Pods-Recipes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.debug.xcconfig"; sourceTree = "<group>"; };
 		796D4A206CD05D40A2BB6E01 /* Pods_Recipes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Recipes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F12EB437D23B92ABEFFD02B /* Pods-Recipes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Recipes.release.xcconfig"; path = "Pods/Target Support Files/Pods-Recipes/Pods-Recipes.release.xcconfig"; sourceTree = "<group>"; };
+		8296DF95843E19773EE0AB43 /* Pods-RecipesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecipesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RecipesTests/Pods-RecipesTests.release.xcconfig"; sourceTree = "<group>"; };
 		B5FC23882375E4688CAB0402 /* libPods-Recipes-RecipesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Recipes-RecipesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E436E2AB2DF870A48FE37AE6 /* Pods-RecipesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecipesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RecipesTests/Pods-RecipesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FF9FF5F9A74135E859B599E /* Pods_RecipesTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +282,8 @@
 			children = (
 				63DF399E9F891531D21089C0 /* Pods-Recipes.debug.xcconfig */,
 				7F12EB437D23B92ABEFFD02B /* Pods-Recipes.release.xcconfig */,
+				E436E2AB2DF870A48FE37AE6 /* Pods-RecipesTests.debug.xcconfig */,
+				8296DF95843E19773EE0AB43 /* Pods-RecipesTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -286,6 +293,7 @@
 			children = (
 				B5FC23882375E4688CAB0402 /* libPods-Recipes-RecipesTests.a */,
 				796D4A206CD05D40A2BB6E01 /* Pods_Recipes.framework */,
+				4449BEE8EA69C455DFCF4819 /* Pods_RecipesTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -316,9 +324,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 058C715820D19C8500B5C151 /* Build configuration list for PBXNativeTarget "RecipesTests" */;
 			buildPhases = (
+				D8BDBAAEF761585B65E5D7C1 /* [CP] Check Pods Manifest.lock */,
 				058C713D20D19C8500B5C151 /* Sources */,
 				058C713E20D19C8500B5C151 /* Frameworks */,
 				058C713F20D19C8500B5C151 /* Resources */,
+				9DB5759438A9DEA66BF48060 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -429,17 +439,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Recipes/Pods-Recipes-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9559778860A0E5484E0FDD6F /* [CP] Check Pods Manifest.lock */ = {
@@ -454,6 +463,45 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Recipes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9DB5759438A9DEA66BF48060 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecipesTests/Pods-RecipesTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RecipesTests/Pods-RecipesTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RecipesTests/Pods-RecipesTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8BDBAAEF761585B65E5D7C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RecipesTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -699,6 +747,7 @@
 		};
 		058C715920D19C8500B5C151 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E436E2AB2DF870A48FE37AE6 /* Pods-RecipesTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -721,6 +770,7 @@
 		};
 		058C715A20D19C8500B5C151 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8296DF95843E19773EE0AB43 /* Pods-RecipesTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
