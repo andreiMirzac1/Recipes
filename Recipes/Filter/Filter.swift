@@ -14,7 +14,7 @@ struct Filter {
     var complexity: Complexity
     
     var isReset: Bool {
-        return complexity == .all && time == .all
+        return complexity == .none && time == .none
     }
 }
 

@@ -12,9 +12,9 @@ enum Time: String {
     case quick = "0-10min"
     case medium = "10-20min"
     case slow = "20+min"
-    case all = "All"
+    case none
     
-    static let allValues = [quick, medium, slow, all]
+    static let allValues = [quick, medium, slow, none]
 }
 
 extension Time {
@@ -28,7 +28,7 @@ extension Time {
         case 20...Int.max:
             self = .slow
         default:
-            self = .all
+            self = .none
         }
     }
 }

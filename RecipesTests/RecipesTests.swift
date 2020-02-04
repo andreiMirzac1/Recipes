@@ -96,7 +96,7 @@ class RecipesTests: XCTestCase {
     }
     
     func testFilterResultByComplexityAll() {
-        recipesViewModel.filterBy(Complexity.all)
+        recipesViewModel.filterBy(Complexity.none)
         XCTAssert(recipesViewModel.filteredRecipes.count == 0, "Number of recipes doesn't match")
     }
     
@@ -125,8 +125,8 @@ class RecipesTests: XCTestCase {
     }
     
     func testFilterIsResetWhenComplexityAndTimeIsSetToAll() {
-        recipesViewModel.filterBy(Time.all)
-        recipesViewModel.filterBy(Complexity.all)
+        recipesViewModel.filterBy(Time.none)
+        recipesViewModel.filterBy(Complexity.none)
         XCTAssert(recipesViewModel.isFilterReset, "Expected filter to be reset")
     }
 }

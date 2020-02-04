@@ -12,9 +12,9 @@ enum Complexity: String {
     case easy = "Easy"
     case medium = "Medium"
     case hard = "Hard"
-    case all = "All"
+    case none = "All"
     
-    static let allValues = [easy, medium, hard, all]
+    static let allValues = [easy, medium, hard, none]
 }
 
 extension Complexity {
@@ -35,7 +35,7 @@ extension Complexity {
         case 0.7...:
             self = .easy
         default:
-            self = .all
+            self = .none
         }
     }
 }

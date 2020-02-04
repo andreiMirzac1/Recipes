@@ -4,35 +4,41 @@
 //
 //  Created by Andrei Mirzac on 14/06/2018.
 //  Copyright © 2018 Andrei Mirzac. All rights reserved.
-//
 
 import Foundation
+import RxSwift
 
 class NetworkService {
-    
-    /// Loads a resource. Completition handler returns an instance of type Result on main queue.
-    public func load<A>(_ resource: Resource<A>, completion: @escaping (Result<A>) -> ()) {
-         
-        URLSession.shared.dataTask(with: URL(string: resource.url)!, completionHandler: { data, response, _ in
-            
-            var result: Result<A>
-            
-            guard let httpResponse = response as? HTTPURLResponse , httpResponse.statusCode == 200 else {
-                result = Result.error(.invalidStatusCode)
-                DispatchQueue.main.async{ completion(result) }
-                
-                return
-            }
-            
-            guard let data = data else {
-                result = Result.error(.dataNotFound)
-                DispatchQueue.main.async{ completion(result) }
-                return
-            }
-            result = Result(resource.parse(data), or: .failedToParse)
-            completion(result)
-        }) .resume()
+
+  private let cache: Cache?
+
+  init(cache: Cache? = nil) {
+    self.cache = cache
+  }
+
+  public func load<A: Codable>(_ resource: Resource<A>) -> Observable<A> {
+
+    return Observable<A>.create { observer in
+      let url = URL(string: resource.url)!
+      let task = URLSession.shared.dataTask(with: url, completionHandler: { [weak self] (data, response, error)  in
+        do {
+          guard let data = data else {
+            return observer.onError(NetworkServiceError.dataNotFound)
+          }
+          let model = try JSONDecoder().decode(A.self , from: data)
+          self?.cache?.save(data, for: resource)
+          return observer.onNext(model)
+        } catch let error {
+          return observer.onError(error)
+        }
+      })
+
+      task.resume()
+      return Disposables.create {
+        task.cancel()
+      }
     }
-    
+  }
+
 }
 
