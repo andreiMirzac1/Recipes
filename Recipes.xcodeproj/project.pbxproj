@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -213,9 +213,9 @@
 		058C712F20D19C8200B5C151 /* Recipes */ = {
 			isa = PBXGroup;
 			children = (
+				0519FD3120D26CAB00013285 /* Networking */,
 				05E1328A20D6DE4E002E433E /* Helpers */,
 				05603D8A20D5B14F00686035 /* Filter */,
-				0519FD3120D26CAB00013285 /* Networking */,
 				058C715E20D1B09400B5C151 /* Model */,
 				0551FE9020D67080001266A2 /* RecipeDetails */,
 				050F74C220D4429F00420F9F /* RecipeList */,

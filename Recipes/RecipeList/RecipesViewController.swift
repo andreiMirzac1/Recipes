@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class RecipesViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!

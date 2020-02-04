@@ -18,13 +18,6 @@ enum Complexity: String {
 }
 
 extension Complexity {
-    
-    /* Ranges have been calculated by evaluating all existing recipes points.
-     More pointPerTime indicates that the complexity of recipe is easier.
-     
-     TODO: Improvements can be done by evaluating all recipes and improving ranges dynamicly based on all stats.
-     */
-    
     init(recipe: Recipe) {
         
         let steps = recipe.steps.count

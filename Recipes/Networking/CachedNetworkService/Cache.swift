@@ -42,7 +42,7 @@ final class Cache: Caching {
         }
         
         if Date().hours(from: cacheData.savedDate) >= time {
-            storage[resource.cacheKey] = nil // remove expired cache
+            storage[resource.cacheKey] = nil
             return nil
         }
     
