@@ -10,9 +10,9 @@ import Foundation
 
 
 struct Filter {
-    var time: Time
-    var complexity: Complexity
-    
+    var time = Time.none
+    var complexity = Complexity.none
+
     var isReset: Bool {
         return complexity == .none && time == .none
     }

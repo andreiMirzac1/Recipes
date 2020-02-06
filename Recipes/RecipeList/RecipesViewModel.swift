@@ -10,70 +10,63 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol RecipesViewModelDelegate: class {
-    func didUpdateContent()
-}
-
 class RecipesViewModel {
-    
-    private var networkService: NetworkService
-    private var resource: Resource<[Recipe]>
 
-    let recipes: Observable<[Recipe]>
+  private var allRecipes: [Recipe] = []
 
-    var filteredRecipes = [Recipe]()
-    var filter = Filter(time: .none, complexity: .none)
-    
-    weak var delegate: RecipesViewModelDelegate?
-    
-    init(networkService: NetworkService, resource: Resource<[Recipe]>) {
-        self.networkService = networkService
-        self.resource = resource
-        recipes = networkService.load(resource)
-    }
+  //output
+  let disposeBag = DisposeBag()
+  let recipes: PublishSubject<[Recipe]> = PublishSubject()
+
+  // input
+  let searchText: PublishSubject<String?> = PublishSubject()
+  let filter: BehaviorSubject<Filter> = BehaviorSubject(value: Filter())
+
+  init(networkService: NetworkService, resource: Resource<[Recipe]>) {
+    networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
+      self?.recipes.onNext(allRecipes)
+      self?.allRecipes = allRecipes
+    }).disposed(by: disposeBag)
+
+    searchText.debounce(RxTimeInterval.seconds(Int(1.0)), scheduler: MainScheduler.instance)
+      .distinctUntilChanged()
+      .compactMap { $0 }
+      .filter { !$0.isEmpty }
+      .subscribe(onNext: { query in
+        print(query)
+      }).disposed(by: disposeBag)
+
+    filter.subscribe(onNext: { [weak self] filter in
+      guard let self = self else {
+        return
+      }
+      self.recipes.onNext(self.filterRecipes(by: filter))
+    }).disposed(by: disposeBag)
+  }
 }
 
 //MARK: - Filtering
 extension RecipesViewModel {
-    
-    var isFilterReset: Bool {
-        return filter.isReset
-    }
-    
-    func filterBy(_ searchText: String) {
-//        filteredRecipes = allRecipes.filter({ recipe in
-//            let lowerCasedSearchText = searchText.lowercased()
-//
-//            if recipe.name.lowercased().contains(lowerCasedSearchText) ||
-//                !recipe.ingredients.filter({$0.name.lowercased().contains(lowerCasedSearchText)}).isEmpty ||
-//                !recipe.steps.filter({$0.lowercased().contains(lowerCasedSearchText)}).isEmpty {
-//                return true
-//            }
-//            return false
-//        })
-    }
+  //  func filterBy(_ searchText: String) {
+  //    filteredRecipes = allRecipes.filter({ recipe in
+  //      let lowerCasedSearchText = searchText.lowercased()
+  //
+  //      if recipe.name.lowercased().contains(lowerCasedSearchText) ||
+  //        !recipe.ingredients.filter({$0.name.lowercased().contains(lowerCasedSearchText)}).isEmpty ||
+  //        !recipe.steps.filter({$0.lowercased().contains(lowerCasedSearchText)}).isEmpty {
+  //        return true
+  //      }
+  //      return false
+  //    })
+  //  }
 
-    func filterBy(_ complexity: Complexity) {
-        filter.complexity = complexity
-        applyFilter()
-    }
+  private func filterRecipes(by filter: Filter) -> [Recipe] {
+    return allRecipes.filter({ recipe in
+      let complexityType = filter.complexity != .none ? Complexity(recipe: recipe) : Complexity.none
+      let timeType = filter.time != .none ? Time(recipe: recipe) : Time.none
+      return complexityType == filter.complexity && filter.time == timeType
+    })
+  }
 
-    func filterBy(_ time: Time) {
-        filter.time = time
-        applyFilter()
-    }
-    
-    private func applyFilter() {
-//        if filter.isReset {
-//            filteredRecipes = []
-//        } else {
-//            filteredRecipes = allRecipes.filter({ recipe in
-//                let complexityType = filter.complexity != .all ? Complexity(recipe: recipe) : Complexity.all
-//                let timeType = filter.time != .all ? Time(recipe: recipe) : Time.all
-//                return complexityType == filter.complexity && filter.time == timeType
-//            })
-//        }
-        delegate?.didUpdateContent()
-    }
 }
 

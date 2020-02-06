@@ -42,7 +42,6 @@ class RecipesViewController: UIViewController {
     registerCells()
     setupSearchController()
     bindToViewModel()
-    viewModel.delegate = self
   }
 
   func bindToViewModel() {
@@ -52,6 +51,9 @@ class RecipesViewController: UIViewController {
       .bind(to: collectionView.rx.items(cellIdentifier: RecipeListViewCell.reuseIdentifier, cellType: RecipeListViewCell.self)) { (row, recipe, cell) in
         cell.setUp(recipe: recipe)
     }.disposed(by: disposeBag)
+
+    //Search Text
+    searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
   }
 
   func registerCells() {
@@ -68,7 +70,7 @@ extension RecipesViewController {
   }
 
   func isFiltering() -> Bool {
-    return searchController.isActive && !searchBarIsEmpty() || !viewModel.isFilterReset
+    return searchController.isActive && !searchBarIsEmpty()
   }
 }
 
@@ -120,7 +122,7 @@ extension RecipesViewController {
       actionSheet.addAction(action)
     }
 
-    self.present(actionSheet, animated: true, completion: nil)
+    self.present(actionSheet, animated: true)
   }
 }
 
@@ -174,12 +176,12 @@ extension RecipesViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 10
-    if isFiltering() {
-      //return viewModel.filteredRecipes.count
-
-    } else {
-      //   return viewModel.allRecipes.count
-    }
+//    if isFiltering() {
+//      //return viewModel.filteredRecipes.count
+//
+//    } else {
+//      //   return viewModel.allRecipes.count
+//    }
   }
 }
 
@@ -200,29 +202,12 @@ extension RecipesViewController: UICollectionViewDelegate {
   }
 }
 
-extension RecipesViewController: UISearchResultsUpdating {
+extension RecipesViewController {
 
   func setupSearchController() {
-    searchController.searchResultsUpdater = self
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.searchBar.placeholder = "Search recipe by name, ingredients, steps"
     navigationItem.searchController = searchController
     definesPresentationContext = true
-  }
-
-  func updateSearchResults(for searchController: UISearchController) {
-    guard let searchText = searchController.searchBar.text else {
-      return
-    }
-
-    viewModel.filterBy(searchText)
-
-    collectionView.reloadData()
-  }
-}
-
-extension RecipesViewController: RecipesViewModelDelegate {
-  func didUpdateContent() {
-    collectionView.reloadData()
   }
 }

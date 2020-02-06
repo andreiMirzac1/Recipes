@@ -151,6 +151,7 @@
 				0519FD3620D2A0A800013285 /* Result.swift */,
 				0519FD3420D2A06100013285 /* Resource.swift */,
 				0519FD3C20D2ACEF00013285 /* NetworkService.swift */,
+				05E1328A20D6DE4E002E433E /* Helpers */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -211,7 +212,6 @@
 			isa = PBXGroup;
 			children = (
 				0519FD3120D26CAB00013285 /* Networking */,
-				05E1328A20D6DE4E002E433E /* Helpers */,
 				05603D8A20D5B14F00686035 /* Filter */,
 				058C715E20D1B09400B5C151 /* Model */,
 				0551FE9020D67080001266A2 /* RecipeDetails */,
