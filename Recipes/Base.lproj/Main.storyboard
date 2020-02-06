@@ -80,6 +80,8 @@
                     <navigationItem key="navigationItem" id="ixg-1J-pJP"/>
                     <connections>
                         <outlet property="collectionView" destination="aHX-R3-nLt" id="ddH-RH-1E6"/>
+                        <outlet property="complexityButton" destination="WKp-lz-KsH" id="sXJ-Yw-uJ6"/>
+                        <outlet property="timeButton" destination="uso-0Q-urr" id="gWG-86-5tn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

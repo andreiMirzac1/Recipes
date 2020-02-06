@@ -20,7 +20,9 @@ class RecipesViewModel {
 
   // input
   let searchText: PublishSubject<String?> = PublishSubject()
-  let filter: BehaviorSubject<Filter> = BehaviorSubject(value: Filter())
+
+  let filterByComplexity: BehaviorRelay<Complexity> = BehaviorRelay(value: .none)
+  let filterByTime: BehaviorRelay<Time> = BehaviorRelay(value: .none)
 
   init(networkService: NetworkService, resource: Resource<[Recipe]>) {
     networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
@@ -36,11 +38,18 @@ class RecipesViewModel {
         print(query)
       }).disposed(by: disposeBag)
 
-    filter.subscribe(onNext: { [weak self] filter in
+    filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
       guard let self = self else {
         return
       }
-      self.recipes.onNext(self.filterRecipes(by: filter))
+      self.filterAndUpdateRecipes(complexity: newComplexity, time: self.filterByTime.value)
+    }).disposed(by: disposeBag)
+
+    filterByTime.subscribe(onNext: { [weak self] newTime in
+      guard let self = self else {
+        return
+      }
+      self.filterAndUpdateRecipes(complexity: self.filterByComplexity.value, time: newTime)
     }).disposed(by: disposeBag)
   }
 }
@@ -60,11 +69,18 @@ extension RecipesViewModel {
   //    })
   //  }
 
-  private func filterRecipes(by filter: Filter) -> [Recipe] {
+
+  private func filterAndUpdateRecipes(complexity: Complexity, time: Time) {
+
+      let filteredRecipes = self.filterRecipes(complexity: complexity, time: time)
+      self.recipes.onNext(filteredRecipes)
+  }
+
+  private func filterRecipes(complexity: Complexity, time: Time) -> [Recipe] {
     return allRecipes.filter({ recipe in
-      let complexityType = filter.complexity != .none ? Complexity(recipe: recipe) : Complexity.none
-      let timeType = filter.time != .none ? Time(recipe: recipe) : Time.none
-      return complexityType == filter.complexity && filter.time == timeType
+      let complexityType = complexity != Complexity.none ? Complexity(recipe: recipe) : Complexity.none
+      let timeType = time != Time.none ? Time(recipe: recipe) : Time.none
+      return complexityType == complexity && timeType == time
     })
   }
 

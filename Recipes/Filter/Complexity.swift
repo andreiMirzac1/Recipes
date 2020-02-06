@@ -12,7 +12,7 @@ enum Complexity: String {
     case easy = "Easy"
     case medium = "Medium"
     case hard = "Hard"
-    case none = "All"
+    case none
     
     static let allValues = [easy, medium, hard, none]
 }

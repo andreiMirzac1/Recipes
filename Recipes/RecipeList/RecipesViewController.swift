@@ -13,7 +13,9 @@ import RxCocoa
 class RecipesViewController: UIViewController {
 
   @IBOutlet var collectionView: UICollectionView!
-
+  @IBOutlet var complexityButton: UIButton!
+  @IBOutlet var timeButton: UIButton!
+  
   let disposeBag = DisposeBag()
 
   let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
@@ -54,6 +56,14 @@ class RecipesViewController: UIViewController {
 
     //Search Text
     searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
+
+    viewModel.filterByComplexity.subscribe(onNext: { complexity in
+      self.complexityButton.setTitle("Complexity: \(complexity.rawValue)", for: .normal)
+    }).disposed(by: disposeBag)
+
+    viewModel.filterByTime.subscribe(onNext: { time in
+       self.timeButton.setTitle("Time: \(time.rawValue)", for: .normal)
+     }).disposed(by: disposeBag)
   }
 
   func registerCells() {
@@ -94,23 +104,18 @@ extension RecipesViewController {
         return
       }
 
-      var buttonTitle: String
-
       switch buttonType {
       case .complexity:
         guard let complexity = Complexity(rawValue: title) else {
           return
         }
-        self.viewModel.filterBy(complexity)
-        buttonTitle = "Complexity: " + title
+        self.viewModel.filterByComplexity.accept(complexity)
       case .time:
         guard let time = Time(rawValue: title) else {
           return
         }
-        self.viewModel.filterBy(time)
-        buttonTitle = "Time: " + title
+        self.viewModel.filterByTime.accept(time)
       }
-      sender.setTitle(buttonTitle, for: .normal)
     }
 
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -121,7 +126,6 @@ extension RecipesViewController {
       let action = UIAlertAction(title: title, style: .default, handler: actionClosure)
       actionSheet.addAction(action)
     }
-
     self.present(actionSheet, animated: true)
   }
 }
