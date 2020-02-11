@@ -12,13 +12,11 @@ enum Complexity: String {
     case easy = "Easy"
     case medium = "Medium"
     case hard = "Hard"
-    case none
-    
-    static let allValues = [easy, medium, hard, none]
+    static let allValues = [easy, medium, hard]
 }
 
 extension Complexity {
-    init(recipe: Recipe) {
+    init?(recipe: Recipe) {
         
         let steps = recipe.steps.count
         let time  = recipe.timers.reduce(0, +)
@@ -35,7 +33,7 @@ extension Complexity {
         case 0.7...:
             self = .easy
         default:
-            self = .none
+           return nil
         }
     }
 }

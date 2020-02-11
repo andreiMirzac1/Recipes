@@ -21,8 +21,9 @@ class RecipesViewModel {
   // input
   let searchText: PublishSubject<String?> = PublishSubject()
 
-  let filterByComplexity: BehaviorRelay<Complexity> = BehaviorRelay(value: .none)
-  let filterByTime: BehaviorRelay<Time> = BehaviorRelay(value: .none)
+  // input output
+  let filterByComplexity: BehaviorRelay<Complexity?> = BehaviorRelay(value: .none)
+  let filterByTime: BehaviorRelay<Time?> = BehaviorRelay(value: .none)
 
   init(networkService: NetworkService, resource: Resource<[Recipe]>) {
     networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
@@ -34,55 +35,54 @@ class RecipesViewModel {
       .distinctUntilChanged()
       .compactMap { $0 }
       .filter { !$0.isEmpty }
-      .subscribe(onNext: { query in
-        print(query)
+      .subscribe(onNext: { [weak self] query in
+        guard let self = self else {
+          return
+        }
+        self.recipes.onNext(self.filterBy(query))
       }).disposed(by: disposeBag)
 
     filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
       guard let self = self else {
         return
       }
-      self.filterAndUpdateRecipes(complexity: newComplexity, time: self.filterByTime.value)
+      let filtered = self.filterBy(complexity: newComplexity, time: self.filterByTime.value)
+      self.recipes.onNext(filtered)
     }).disposed(by: disposeBag)
 
     filterByTime.subscribe(onNext: { [weak self] newTime in
       guard let self = self else {
         return
       }
-      self.filterAndUpdateRecipes(complexity: self.filterByComplexity.value, time: newTime)
+      let filtered = self.filterBy(complexity: self.filterByComplexity.value, time: newTime)
+      self.recipes.onNext(filtered)
     }).disposed(by: disposeBag)
   }
 }
 
 //MARK: - Filtering
 extension RecipesViewModel {
-  //  func filterBy(_ searchText: String) {
-  //    filteredRecipes = allRecipes.filter({ recipe in
-  //      let lowerCasedSearchText = searchText.lowercased()
-  //
-  //      if recipe.name.lowercased().contains(lowerCasedSearchText) ||
-  //        !recipe.ingredients.filter({$0.name.lowercased().contains(lowerCasedSearchText)}).isEmpty ||
-  //        !recipe.steps.filter({$0.lowercased().contains(lowerCasedSearchText)}).isEmpty {
-  //        return true
-  //      }
-  //      return false
-  //    })
-  //  }
 
-
-  private func filterAndUpdateRecipes(complexity: Complexity, time: Time) {
-
-      let filteredRecipes = self.filterRecipes(complexity: complexity, time: time)
-      self.recipes.onNext(filteredRecipes)
+  private func filterBy(_ searchText: String) -> [Recipe] {
+    return allRecipes.filter({ $0.containsOccurence(of: searchText) })
   }
+ 
+  private func filterBy(complexity: Complexity?, time: Time?) -> [Recipe] {
 
-  private func filterRecipes(complexity: Complexity, time: Time) -> [Recipe] {
     return allRecipes.filter({ recipe in
-      let complexityType = complexity != Complexity.none ? Complexity(recipe: recipe) : Complexity.none
-      let timeType = time != Time.none ? Time(recipe: recipe) : Time.none
-      return complexityType == complexity && timeType == time
+      var complexityMatch = true
+      var timeMatch = true
+
+      if let complexity = complexity {
+        complexityMatch = complexity == Complexity(recipe: recipe)
+      }
+
+      if let time = time {
+        timeMatch = time == Time(recipe: recipe)
+      }
+
+      return complexityMatch && timeMatch
     })
   }
-
 }
 

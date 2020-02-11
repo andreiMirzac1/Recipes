@@ -12,13 +12,11 @@ enum Time: String {
     case quick = "0-10min"
     case medium = "10-20min"
     case slow = "20+min"
-    case none
-    
-    static let allValues = [quick, medium, slow, none]
+    static let allValues = [quick, medium, slow]
 }
 
 extension Time {
-    init(recipe: Recipe) {
+    init?(recipe: Recipe) {
         
         switch recipe.timers.reduce(0, +) {
         case 0..<10:
@@ -28,7 +26,7 @@ extension Time {
         case 20...Int.max:
             self = .slow
         default:
-            self = .none
+          return nil
         }
     }
 }

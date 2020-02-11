@@ -58,11 +58,20 @@ class RecipesViewController: UIViewController {
     searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
 
     viewModel.filterByComplexity.subscribe(onNext: { complexity in
-      self.complexityButton.setTitle("Complexity: \(complexity.rawValue)", for: .normal)
+      var title = "Complexity: None"
+      if let complexity = complexity {
+        title = "Complexity: \(complexity.rawValue)"
+      }
+
+      self.complexityButton.setTitle(title, for: .normal)
     }).disposed(by: disposeBag)
 
     viewModel.filterByTime.subscribe(onNext: { time in
-       self.timeButton.setTitle("Time: \(time.rawValue)", for: .normal)
+       var title = "Time: None"
+       if let time = time {
+         title = "Time: \(time.rawValue)"
+       }
+       self.timeButton.setTitle(title, for: .normal)
      }).disposed(by: disposeBag)
   }
 
