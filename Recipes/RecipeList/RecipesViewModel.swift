@@ -14,6 +14,18 @@ class RecipesViewModel {
 
   private var allRecipes: [Recipe] = []
 
+  let complexityTitles: [String] = {
+    var titles = Complexity.allValues.map({ $0.rawValue })
+    titles.append("None")
+    return titles
+  }()
+
+  let timeTitles: [String] = {
+    var titles = Time.allValues.map({ $0.rawValue })
+    titles.append("None")
+    return titles
+  }()
+
   //output
   let disposeBag = DisposeBag()
   let recipes: PublishSubject<[Recipe]> = PublishSubject()
@@ -22,8 +34,8 @@ class RecipesViewModel {
   let searchText: PublishSubject<String?> = PublishSubject()
 
   // input output
-  let filterByComplexity: BehaviorRelay<Complexity?> = BehaviorRelay(value: .none)
-  let filterByTime: BehaviorRelay<Time?> = BehaviorRelay(value: .none)
+  let filterByComplexity: BehaviorRelay<String?> = BehaviorRelay(value: .none)
+  let filterByTime: BehaviorRelay<String?> = BehaviorRelay(value: .none)
 
   init(networkService: NetworkService, resource: Resource<[Recipe]>) {
     networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
@@ -31,7 +43,7 @@ class RecipesViewModel {
       self?.allRecipes = allRecipes
     }).disposed(by: disposeBag)
 
-    searchText.debounce(RxTimeInterval.seconds(Int(1.0)), scheduler: MainScheduler.instance)
+    searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
       .distinctUntilChanged()
       .compactMap { $0 }
       .filter { !$0.isEmpty }
@@ -46,7 +58,7 @@ class RecipesViewModel {
       guard let self = self else {
         return
       }
-      let filtered = self.filterBy(complexity: newComplexity, time: self.filterByTime.value)
+      let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
       self.recipes.onNext(filtered)
     }).disposed(by: disposeBag)
 
@@ -54,7 +66,7 @@ class RecipesViewModel {
       guard let self = self else {
         return
       }
-      let filtered = self.filterBy(complexity: self.filterByComplexity.value, time: newTime)
+      let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
       self.recipes.onNext(filtered)
     }).disposed(by: disposeBag)
   }
@@ -62,25 +74,24 @@ class RecipesViewModel {
 
 //MARK: - Filtering
 extension RecipesViewModel {
-
+  
   private func filterBy(_ searchText: String) -> [Recipe] {
     return allRecipes.filter({ $0.containsOccurence(of: searchText) })
   }
- 
-  private func filterBy(complexity: Complexity?, time: Time?) -> [Recipe] {
-
+  
+  private func filterBy(complexityStr: String?, timeStr: String?) -> [Recipe] {
     return allRecipes.filter({ recipe in
       var complexityMatch = true
       var timeMatch = true
-
-      if let complexity = complexity {
-        complexityMatch = complexity == Complexity(recipe: recipe)
+      
+      if let complexityStr = complexityStr, let selectedComplexity = Complexity(rawValue: complexityStr) {
+        complexityMatch = selectedComplexity == Complexity(recipe: recipe)
       }
-
-      if let time = time {
-        timeMatch = time == Time(recipe: recipe)
+      
+      if let timeStr = timeStr, let recipeTime = Time(rawValue: timeStr) {
+        timeMatch = recipeTime == Time(recipe: recipe)
       }
-
+      
       return complexityMatch && timeMatch
     })
   }

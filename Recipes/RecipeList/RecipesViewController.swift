@@ -58,38 +58,17 @@ class RecipesViewController: UIViewController {
     searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
 
     viewModel.filterByComplexity.subscribe(onNext: { complexity in
-      var title = "Complexity: None"
-      if let complexity = complexity {
-        title = "Complexity: \(complexity.rawValue)"
-      }
-
-      self.complexityButton.setTitle(title, for: .normal)
+      self.complexityButton.setTitle("Complexity \(complexity ?? "None")", for: .normal)
     }).disposed(by: disposeBag)
 
     viewModel.filterByTime.subscribe(onNext: { time in
-       var title = "Time: None"
-       if let time = time {
-         title = "Time: \(time.rawValue)"
-       }
-       self.timeButton.setTitle(title, for: .normal)
-     }).disposed(by: disposeBag)
+      self.timeButton.setTitle("Time \(time ?? "None")", for: .normal)
+    }).disposed(by: disposeBag)
   }
 
   func registerCells() {
     let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
     collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
-  }
-}
-
-// MARK: - SearchController Helpers
-extension RecipesViewController {
-
-  func searchBarIsEmpty() -> Bool {
-    return searchController.searchBar.text?.isEmpty ?? true
-  }
-
-  func isFiltering() -> Bool {
-    return searchController.isActive && !searchBarIsEmpty()
   }
 }
 
@@ -103,27 +82,17 @@ extension RecipesViewController {
     var actionTitles = [String]()
     switch buttonType {
     case .complexity:
-      actionTitles = Complexity.allValues.map({ $0.rawValue })
+      actionTitles = viewModel.complexityTitles
     case .time:
-      actionTitles = Time.allValues.map({ $0.rawValue })
+      actionTitles = viewModel.timeTitles
     }
 
     let actionClosure: (UIAlertAction) -> () = { action in
-      guard let title = action.title else {
-        return
-      }
-
       switch buttonType {
       case .complexity:
-        guard let complexity = Complexity(rawValue: title) else {
-          return
-        }
-        self.viewModel.filterByComplexity.accept(complexity)
+        self.viewModel.filterByComplexity.accept(action.title)
       case .time:
-        guard let time = Time(rawValue: title) else {
-          return
-        }
-        self.viewModel.filterByTime.accept(time)
+        self.viewModel.filterByTime.accept(action.title)
       }
     }
 
@@ -135,7 +104,7 @@ extension RecipesViewController {
       let action = UIAlertAction(title: title, style: .default, handler: actionClosure)
       actionSheet.addAction(action)
     }
-    self.present(actionSheet, animated: true)
+   present(actionSheet, animated: true)
   }
 }
 
@@ -170,34 +139,6 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     return spaceBetweenRows
   }
 }
-
-extension RecipesViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-    guard let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeListViewCell.reuseIdentifier, for: indexPath) as? RecipeListViewCell else {
-      return UICollectionViewCell()
-    }
-
-    if isFiltering() {
-      //   cell.setUp(recipe: viewModel.filteredRecipes[indexPath.row])
-    } else {
-      //  cell.setUp(recipe: viewModel.allRecipes.[indexPath.row])
-    }
-
-    return cell
-  }
-
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
-//    if isFiltering() {
-//      //return viewModel.filteredRecipes.count
-//
-//    } else {
-//      //   return viewModel.allRecipes.count
-//    }
-  }
-}
-
 
 extension RecipesViewController: UICollectionViewDelegate {
 
