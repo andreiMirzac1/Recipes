@@ -10,6 +10,12 @@ import RxSwift
 
 class NetworkService {
 
+  enum NetworkServiceError: Error {
+      case dataNotFound
+      case failedToParse
+      case invalidStatusCode
+  }
+  
   private let cache: Cache?
 
   init(cache: Cache? = nil) {
