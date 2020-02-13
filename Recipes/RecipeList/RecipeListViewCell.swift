@@ -11,9 +11,6 @@ import UIKit
 import Kingfisher
 
 class RecipeListViewCell: UICollectionViewCell {
-    
-    static let reuseIdentifier = "RecipeListViewCell"
-    
     @IBOutlet var image: UIImageView!
     @IBOutlet var title: UILabel!
     @IBOutlet var ingredients: UILabel!
@@ -33,4 +30,10 @@ class RecipeListViewCell: UICollectionViewCell {
         time.text = String(recipe.timers.reduce(0, { $0 + $1 })) + " mins"
     }
     
+}
+
+extension UICollectionViewCell {
+  public static var reuseIdentifier: String {
+    return String(describing: self)
+  }
 }

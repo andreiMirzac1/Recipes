@@ -76,7 +76,7 @@ class RecipesViewController: UIViewController {
   }
 
   func registerCells() {
-    let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier, bundle: nil)
+    let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
     collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
   }
 }
