@@ -143,16 +143,10 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
 extension RecipesViewController: UICollectionViewDelegate {
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //        var selectedRecipe: Recipe
-    //        if isFiltering() {
-    //            selectedRecipe = viewModel.filteredRecipes[indexPath.row]
-    //        } else {
-    //            selectedRecipe = viewModel.allRecipes[indexPath.row]
-    //        }
-    //
-    //        let recipeDetailViewModel = RecipeDetailViewModel(recipe: selectedRecipe)
-    //        let viewController = RecipeDetailViewController(viewModel: recipeDetailViewModel)
-    //        self.navigationController?.pushViewController(viewController, animated: true)
+    let recipe = viewModel.recipes.value[indexPath.row]
+    let recipeDetailViewModel = RecipeDetailViewModel(recipe: recipe)
+    let viewController = RecipeDetailViewController(viewModel: recipeDetailViewModel)
+    navigationController?.pushViewController(viewController, animated: true)
   }
 }
 

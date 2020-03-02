@@ -28,7 +28,7 @@ class RecipesViewModel {
 
   //output
   let disposeBag = DisposeBag()
-  let recipes: PublishSubject<[Recipe]> = PublishSubject()
+  let recipes: BehaviorRelay<[Recipe]> = BehaviorRelay(value: [])
 
   // input
   let searchText: PublishSubject<String?> = PublishSubject()
@@ -39,7 +39,7 @@ class RecipesViewModel {
 
   init(networkService: NetworkService, resource: Resource<[Recipe]>) {
     networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
-      self?.recipes.onNext(allRecipes)
+      self?.recipes.accept(allRecipes)
       self?.allRecipes = allRecipes
     }).disposed(by: disposeBag)
 
@@ -51,7 +51,7 @@ class RecipesViewModel {
         guard let self = self else {
           return
         }
-        self.recipes.onNext(self.filterBy(query))
+        self.recipes.accept(self.filterBy(query))
       }).disposed(by: disposeBag)
 
     filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
@@ -59,7 +59,7 @@ class RecipesViewModel {
         return
       }
       let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
-      self.recipes.onNext(filtered)
+      self.recipes.accept(filtered)
     }).disposed(by: disposeBag)
 
     filterByTime.subscribe(onNext: { [weak self] newTime in
@@ -67,9 +67,10 @@ class RecipesViewModel {
         return
       }
       let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
-      self.recipes.onNext(filtered)
+      self.recipes.accept(filtered)
     }).disposed(by: disposeBag)
   }
+
 }
 
 //MARK: - Filtering
