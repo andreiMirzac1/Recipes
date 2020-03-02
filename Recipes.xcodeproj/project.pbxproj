@@ -28,7 +28,6 @@
 		058C715120D19C8500B5C151 /* RecipesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C715020D19C8500B5C151 /* RecipesUITests.swift */; };
 		058C716020D1B12100B5C151 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C715F20D1B12100B5C151 /* Recipe.swift */; };
 		058C716220D1B3E600B5C151 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C716120D1B3E600B5C151 /* Ingredient.swift */; };
-		05AF913320D6FE1C00ECAC47 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AF913220D6FE1C00ECAC47 /* MockNetworkService.swift */; };
 		05AF913720D7709600ECAC47 /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 05AF913620D76EAF00ECAC47 /* recipes.json */; };
 		05BA4DB020D6B412000DB787 /* RecipeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA4DAF20D6B412000DB787 /* RecipeDetailViewModel.swift */; };
 		05BA4DB320D6B60E000DB787 /* RecipeIngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA4DB220D6B60E000DB787 /* RecipeIngredientCell.swift */; };
@@ -84,7 +83,6 @@
 		058C715220D19C8500B5C151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		058C715F20D1B12100B5C151 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		058C716120D1B3E600B5C151 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
-		05AF913220D6FE1C00ECAC47 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		05AF913620D76EAF00ECAC47 /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
 		05BA4DAF20D6B412000DB787 /* RecipeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewModel.swift; sourceTree = "<group>"; };
 		05BA4DB220D6B60E000DB787 /* RecipeIngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeIngredientCell.swift; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 				058C714520D19C8500B5C151 /* RecipesTests.swift */,
 				058C714720D19C8500B5C151 /* Info.plist */,
 				05AF913620D76EAF00ECAC47 /* recipes.json */,
-				05AF913220D6FE1C00ECAC47 /* MockNetworkService.swift */,
 			);
 			path = RecipesTests;
 			sourceTree = "<group>";
@@ -511,7 +508,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05AF913320D6FE1C00ECAC47 /* MockNetworkService.swift in Sources */,
 				058C714620D19C8500B5C151 /* RecipesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
