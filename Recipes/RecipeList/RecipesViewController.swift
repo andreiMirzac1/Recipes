@@ -12,125 +12,130 @@ import RxCocoa
 
 class RecipesViewController: UIViewController {
 
-  @IBOutlet var collectionView: UICollectionView!
-  @IBOutlet var complexityButton: UIButton!
-  @IBOutlet var timeButton: UIButton!
-  
-  let disposeBag = DisposeBag()
+    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var complexityButton: UIButton!
+    @IBOutlet var timeButton: UIButton!
 
-  let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
-  let columns: CGFloat = 2
-  let spaceBetweenRows: CGFloat = 20
-  let spaceBetweenColumns: CGFloat = 0
-  let interitemSpacing: CGFloat = 10
+    let disposeBag = DisposeBag()
 
-  /// SearchController
-  let searchController = UISearchController(searchResultsController: nil)
+    let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
+    let columns: CGFloat = 2
+    let spaceBetweenRows: CGFloat = 20
+    let spaceBetweenColumns: CGFloat = 0
+    let interitemSpacing: CGFloat = 10
 
-  //Filter button tags
-  enum FilterButton: Int {
-    case complexity = 1
-    case time
-  }
+    /// SearchController
+    let searchController = UISearchController(searchResultsController: nil)
 
-  lazy var viewModel: RecipesViewModel =  {
-    let url = "https://mobile.asosservices.com/sampleapifortest/recipes.json"
-    let resource = Resource<[Recipe]>(url: url)
-    return RecipesViewModel(networkService: NetworkService(), resource: resource)
-  }()
+    //Filter button tags
+    enum FilterButton: Int {
+        case complexity = 1
+        case time
+    }
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    registerCells()
-    setupSearchController()
-    bindToViewModel()
-  }
+    lazy var viewModel: RecipesViewModel =  {
+        let url = "https://mobile.asosservices.com/sampleapifortest/recipes.json"
+        let resource = Resource<[Recipe]>(url: url)
+        return RecipesViewModel(networkService: NetworkService(), resource: resource)
+    }()
 
-  func bindToViewModel() {
-    //Search Text
-    searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        registerCells()
+        setupSearchController()
+        bindToViewModel()
+        viewModel.loadRecipes()
+    }
 
-    viewModel.filterByComplexity.subscribe(onNext: { complexity in
-      self.complexityButton.setTitle("Complexity \(complexity ?? "None")", for: .normal)
-    }).disposed(by: disposeBag)
+    func bindToViewModel() {
+        viewModel.shouldUpdateContent = { [weak self] in
+            self?.collectionView.reloadData()
+        }
 
-    viewModel.filterByTime.subscribe(onNext: { time in
-      self.timeButton.setTitle("Time \(time ?? "None")", for: .normal)
-    }).disposed(by: disposeBag)
-  }
+        //Search Text
+        searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
 
-  func registerCells() {
-    let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
-    collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
-  }
+        viewModel.filterByComplexity.subscribe(onNext: { complexity in
+            self.complexityButton.setTitle("Complexity \(complexity ?? "None")", for: .normal)
+        }).disposed(by: disposeBag)
+
+        viewModel.filterByTime.subscribe(onNext: { time in
+            self.timeButton.setTitle("Time \(time ?? "None")", for: .normal)
+        }).disposed(by: disposeBag)
+    }
+
+    func registerCells() {
+        let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
+    }
 }
 
 extension RecipesViewController {
 
-  @IBAction func filterBy(sender: UIButton) {
-    guard let buttonType = FilterButton(rawValue: sender.tag) else {
-      return
-    }
+    @IBAction func filterBy(sender: UIButton) {
+        guard let buttonType = FilterButton(rawValue: sender.tag) else {
+            return
+        }
 
-    var actionTitles = [String]()
-    switch buttonType {
-    case .complexity:
-      actionTitles = viewModel.complexityTitles
-    case .time:
-      actionTitles = viewModel.timeTitles
-    }
+        var actionTitles = [String]()
+        switch buttonType {
+        case .complexity:
+            actionTitles = viewModel.complexityTitles
+        case .time:
+            actionTitles = viewModel.timeTitles
+        }
 
-    let actionClosure: (UIAlertAction) -> () = { action in
-      switch buttonType {
-      case .complexity:
-        self.viewModel.filterByComplexity.accept(action.title)
-      case .time:
-        self.viewModel.filterByTime.accept(action.title)
-      }
-    }
+        let actionClosure: (UIAlertAction) -> () = { action in
+            switch buttonType {
+            case .complexity:
+                self.viewModel.filterByComplexity.accept(action.title)
+            case .time:
+                self.viewModel.filterByTime.accept(action.title)
+            }
+        }
 
-    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    actionSheet.addAction(cancel)
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheet.addAction(cancel)
 
-    for title in actionTitles {
-      let action = UIAlertAction(title: title, style: .default, handler: actionClosure)
-      actionSheet.addAction(action)
+        for title in actionTitles {
+            let action = UIAlertAction(title: title, style: .default, handler: actionClosure)
+            actionSheet.addAction(action)
+        }
+        present(actionSheet, animated: true)
     }
-   present(actionSheet, animated: true)
-  }
 }
 
 extension RecipesViewController: UICollectionViewDelegateFlowLayout {
 
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //Width
-    let screenWidth = UIScreen.main.bounds.width
-    let paddingSpace = sectionInsets.left * (columns)
-    let availableWidth = screenWidth - paddingSpace - interitemSpacing
-    let width = availableWidth / columns
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //Width
+        let screenWidth = UIScreen.main.bounds.width
+        let paddingSpace = sectionInsets.left * (columns)
+        let availableWidth = screenWidth - paddingSpace - interitemSpacing
+        let width = availableWidth / columns
 
-    // Height
-    let height = width + (width * 0.50)
+        // Height
+        let height = width + (width * 0.50)
 
-    return CGSize(width: width, height: height)
-  }
+        return CGSize(width: width, height: height)
+    }
 
-  func collectionView(_ collectionView: UICollectionView,
-                      layout collectionViewLayout: UICollectionViewLayout,
-                      insetForSectionAt section: Int) -> UIEdgeInsets {
-    return sectionInsets
-  }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return spaceBetweenColumns
-  }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spaceBetweenColumns
+    }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return spaceBetweenRows
-  }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spaceBetweenRows
+    }
 }
 
 extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -156,10 +161,10 @@ extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension RecipesViewController {
 
-  func setupSearchController() {
-    searchController.obscuresBackgroundDuringPresentation = false
-    searchController.searchBar.placeholder = "Search recipe by name, ingredients, steps"
-    navigationItem.searchController = searchController
-    definesPresentationContext = true
-  }
+    func setupSearchController() {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search recipe by name, ingredients, steps"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
 }

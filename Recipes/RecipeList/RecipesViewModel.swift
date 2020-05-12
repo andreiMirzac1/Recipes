@@ -12,11 +12,12 @@ import RxCocoa
 
 class RecipesViewModel {
 
-  let complexityTitles: [String] = {
-    var titles = Complexity.allValues.map({ $0.rawValue })
-    titles.append("None")
-    return titles
-  }()
+    var shouldUpdateContent: () -> Void = { }
+    let complexityTitles: [String] = {
+        var titles = Complexity.allValues.map({ $0.rawValue })
+        titles.append("None")
+        return titles
+    }()
 
     let timeTitles: [String] = {
         var titles = Time.allValues.map({ $0.rawValue })
@@ -42,32 +43,32 @@ class RecipesViewModel {
         self.networkService = networkService
         self.resource = resource
 
-        searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .filter { !$0.isEmpty }
-            .subscribe(onNext: { [weak self] query in
-                guard let self = self else {
-                    return
-                }
-               // self.recipes.accept(self.filterBy(query))
-            }).disposed(by: disposeBag)
-
-        filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
-            guard let self = self else {
-                return
-            }
-            let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
-           // self.recipes.accept(filtered)
-        }).disposed(by: disposeBag)
-
-        filterByTime.subscribe(onNext: { [weak self] newTime in
-            guard let self = self else {
-                return
-            }
-            let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
-           // self.recipes.accept(filtered)
-        }).disposed(by: disposeBag)
+        //        searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+        //            .distinctUntilChanged()
+        //            .compactMap { $0 }
+        //            .filter { !$0.isEmpty }
+        //            .subscribe(onNext: { [weak self] query in
+        //                guard let self = self else {
+        //                    return
+        //                }
+        //               // self.recipes.accept(self.filterBy(query))
+        //            }).disposed(by: disposeBag)
+        //
+        //        filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
+        //            guard let self = self else {
+        //                return
+        //            }
+        //            let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
+        //           // self.recipes.accept(filtered)
+        //        }).disposed(by: disposeBag)
+        //
+        //        filterByTime.subscribe(onNext: { [weak self] newTime in
+        //            guard let self = self else {
+        //                return
+        //            }
+        //            let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
+        //           // self.recipes.accept(filtered)
+        //        }).disposed(by: disposeBag)
     }
 
     func loadRecipes() {
@@ -78,33 +79,36 @@ class RecipesViewModel {
                 break
             case .success(let recipes):
                 self?.allRecipes = recipes
+                self?.recipes = recipes
+
             }
+            self?.shouldUpdateContent()
         }
     }
 }
 
 //MARK: - Filtering
 extension RecipesViewModel {
-  
-  private func filterBy(_ searchText: String) -> [Recipe] {
-    return allRecipes.filter({ $0.containsOccurence(of: searchText) })
-  }
-  
-  private func filterBy(complexityStr: String?, timeStr: String?) -> [Recipe] {
-    return allRecipes.filter({ recipe in
-      var complexityMatch = true
-      var timeMatch = true
-      
-      if let complexityStr = complexityStr, let selectedComplexity = Complexity(rawValue: complexityStr) {
-        complexityMatch = selectedComplexity == Complexity(recipe: recipe)
-      }
-      
-      if let timeStr = timeStr, let recipeTime = Time(rawValue: timeStr) {
-        timeMatch = recipeTime == Time(recipe: recipe)
-      }
-      
-      return complexityMatch && timeMatch
-    })
-  }
+
+    private func filterBy(_ searchText: String) -> [Recipe] {
+        return allRecipes.filter({ $0.containsOccurence(of: searchText) })
+    }
+
+    private func filterBy(complexityStr: String?, timeStr: String?) -> [Recipe] {
+        return allRecipes.filter({ recipe in
+            var complexityMatch = true
+            var timeMatch = true
+
+            if let complexityStr = complexityStr, let selectedComplexity = Complexity(rawValue: complexityStr) {
+                complexityMatch = selectedComplexity == Complexity(recipe: recipe)
+            }
+
+            if let timeStr = timeStr, let recipeTime = Time(rawValue: timeStr) {
+                timeMatch = recipeTime == Time(recipe: recipe)
+            }
+
+            return complexityMatch && timeMatch
+        })
+    }
 }
 
