@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		050B9815246B3E600014F572 /* NetworkServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050B9814246B3E600014F572 /* NetworkServiceError.swift */; };
+		050B9817246B4E830014F572 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050B9816246B4E830014F572 /* Filter.swift */; };
 		050F74C420D4457F00420F9F /* RecipeListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050F74C320D4457F00420F9F /* RecipeListViewCell.swift */; };
 		050F74C620D445A800420F9F /* RecipeListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 050F74C520D445A800420F9F /* RecipeListViewCell.xib */; };
 		0519FD3520D2A06100013285 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0519FD3420D2A06100013285 /* Resource.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		050B9814246B3E600014F572 /* NetworkServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceError.swift; sourceTree = "<group>"; };
+		050B9816246B4E830014F572 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		050F74C320D4457F00420F9F /* RecipeListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewCell.swift; sourceTree = "<group>"; };
 		050F74C520D445A800420F9F /* RecipeListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeListViewCell.xib; sourceTree = "<group>"; };
 		0519FD3420D2A06100013285 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			children = (
 				0519FD3A20D2AB8B00013285 /* RecipesViewModel.swift */,
 				058C713220D19C8200B5C151 /* RecipesViewController.swift */,
+				050B9816246B4E830014F572 /* Filter.swift */,
 				050F74C320D4457F00420F9F /* RecipeListViewCell.swift */,
 				050F74C520D445A800420F9F /* RecipeListViewCell.xib */,
 			);
@@ -500,6 +503,7 @@
 				05BA4DB320D6B60E000DB787 /* RecipeIngredientCell.swift in Sources */,
 				05797BA520D65A2200A7EA7A /* Complexity.swift in Sources */,
 				0551FE9220D670AB001266A2 /* RecipeDetailsViewController.swift in Sources */,
+				050B9817246B4E830014F572 /* Filter.swift in Sources */,
 				058C713320D19C8200B5C151 /* RecipesViewController.swift in Sources */,
 				05BA4DB020D6B412000DB787 /* RecipeDetailViewModel.swift in Sources */,
 				058C713120D19C8200B5C151 /* AppDelegate.swift in Sources */,

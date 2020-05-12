@@ -52,16 +52,17 @@ class RecipesViewController: UIViewController {
             self?.collectionView.reloadData()
         }
 
+        viewModel.didSelectTimeFilter = { [weak self] time in
+
+            self?.timeButton.setTitle("Time \(time?.rawValue ?? "All")", for: .normal)
+        }
+
+        viewModel.didSelectComplexityFilter = { [weak self] complexity in
+            self?.complexityButton.setTitle("Complexity \(complexity?.rawValue ?? "All")", for: .normal)
+        }
+
         //Search Text
         searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
-
-        viewModel.filterByComplexity.subscribe(onNext: { complexity in
-            self.complexityButton.setTitle("Complexity \(complexity ?? "None")", for: .normal)
-        }).disposed(by: disposeBag)
-
-        viewModel.filterByTime.subscribe(onNext: { time in
-            self.timeButton.setTitle("Time \(time ?? "None")", for: .normal)
-        }).disposed(by: disposeBag)
     }
 
     func registerCells() {
@@ -86,11 +87,15 @@ extension RecipesViewController {
         }
 
         let actionClosure: (UIAlertAction) -> () = { action in
+            guard let title = action.title else {
+                return
+            }
+
             switch buttonType {
             case .complexity:
-                self.viewModel.filterByComplexity.accept(action.title)
+                self.viewModel.filterByComplexity(rawValue: title)
             case .time:
-                self.viewModel.filterByTime.accept(action.title)
+                self.viewModel.filterByTime(rawValue: title)
             }
         }
 
