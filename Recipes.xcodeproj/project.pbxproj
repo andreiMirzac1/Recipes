@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050B9815246B3E600014F572 /* NetworkServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050B9814246B3E600014F572 /* NetworkServiceError.swift */; };
 		050F74C420D4457F00420F9F /* RecipeListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050F74C320D4457F00420F9F /* RecipeListViewCell.swift */; };
 		050F74C620D445A800420F9F /* RecipeListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 050F74C520D445A800420F9F /* RecipeListViewCell.xib */; };
 		0519FD3520D2A06100013285 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0519FD3420D2A06100013285 /* Resource.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		050B9814246B3E600014F572 /* NetworkServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceError.swift; sourceTree = "<group>"; };
 		050F74C320D4457F00420F9F /* RecipeListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewCell.swift; sourceTree = "<group>"; };
 		050F74C520D445A800420F9F /* RecipeListViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeListViewCell.xib; sourceTree = "<group>"; };
 		0519FD3420D2A06100013285 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				054362AC20D3CB5600E5001F /* FileStorage.swift */,
 				054362AA20D3CB3F00E5001F /* Cache.swift */,
 				0519FD3420D2A06100013285 /* Resource.swift */,
+				050B9814246B3E600014F572 /* NetworkServiceError.swift */,
 				0519FD3C20D2ACEF00013285 /* NetworkService.swift */,
 			);
 			path = Networking;
@@ -485,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0519FD3B20D2AB8B00013285 /* RecipesViewModel.swift in Sources */,
+				050B9815246B3E600014F572 /* NetworkServiceError.swift in Sources */,
 				0528738920D69EC3008F3640 /* RecipeImageCell.swift in Sources */,
 				058C716220D1B3E600B5C151 /* Ingredient.swift in Sources */,
 				058C716020D1B12100B5C151 /* Recipe.swift in Sources */,

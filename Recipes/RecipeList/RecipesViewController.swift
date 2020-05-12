@@ -47,13 +47,6 @@ class RecipesViewController: UIViewController {
   }
 
   func bindToViewModel() {
-    collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-    viewModel.recipes
-      .subscribeOn(MainScheduler.instance)
-      .bind(to: collectionView.rx.items(cellIdentifier: RecipeListViewCell.reuseIdentifier, cellType: RecipeListViewCell.self)) { (row, recipe, cell) in
-        cell.setUp(recipe: recipe)
-    }.disposed(by: disposeBag)
-
     //Search Text
     searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
 
@@ -140,14 +133,25 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
-extension RecipesViewController: UICollectionViewDelegate {
+extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.recipes.count
+    }
 
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let recipe = viewModel.recipes.value[indexPath.row]
-    let recipeDetailViewModel = RecipeDetailViewModel(recipe: recipe)
-    let viewController = RecipeDetailViewController(viewModel: recipeDetailViewModel)
-    navigationController?.pushViewController(viewController, animated: true)
-  }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecipeListViewCell.reuseIdentifier, for: indexPath) as? RecipeListViewCell else {
+            fatalError("Failed to deque cell of type \(String(describing: RecipeListViewCell.self))")
+        }
+        cell.setUp(recipe: viewModel.recipes[indexPath.row])
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let recipe = viewModel.recipes[indexPath.row]
+        let recipeDetailViewModel = RecipeDetailViewModel(recipe: recipe)
+        let viewController = RecipeDetailViewController(viewModel: recipeDetailViewModel)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension RecipesViewController {

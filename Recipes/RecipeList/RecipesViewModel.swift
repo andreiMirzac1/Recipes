@@ -12,65 +12,75 @@ import RxCocoa
 
 class RecipesViewModel {
 
-  private var allRecipes: [Recipe] = []
-
   let complexityTitles: [String] = {
     var titles = Complexity.allValues.map({ $0.rawValue })
     titles.append("None")
     return titles
   }()
 
-  let timeTitles: [String] = {
-    var titles = Time.allValues.map({ $0.rawValue })
-    titles.append("None")
-    return titles
-  }()
+    let timeTitles: [String] = {
+        var titles = Time.allValues.map({ $0.rawValue })
+        titles.append("None")
+        return titles
+    }()
 
-  //output
-  let disposeBag = DisposeBag()
-  let recipes: BehaviorRelay<[Recipe]> = BehaviorRelay(value: [])
+    //output
+    let disposeBag = DisposeBag()
 
-  // input
-  let searchText: PublishSubject<String?> = PublishSubject()
 
-  // input output
-  let filterByComplexity: BehaviorRelay<String?> = BehaviorRelay(value: .none)
-  let filterByTime: BehaviorRelay<String?> = BehaviorRelay(value: .none)
+    // input
+    let searchText: PublishSubject<String?> = PublishSubject()
+    private let networkService: NetworkService
+    private let resource: Resource<[Recipe]>
+    private var allRecipes: [Recipe] = []
+    var recipes: [Recipe] = []
+    // input output
+    let filterByComplexity: BehaviorRelay<String?> = BehaviorRelay(value: .none)
+    let filterByTime: BehaviorRelay<String?> = BehaviorRelay(value: .none)
 
-  init(networkService: NetworkService, resource: Resource<[Recipe]>) {
-    networkService.load(resource).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] allRecipes in
-      self?.recipes.accept(allRecipes)
-      self?.allRecipes = allRecipes
-    }).disposed(by: disposeBag)
+    init(networkService: NetworkService, resource: Resource<[Recipe]>) {
+        self.networkService = networkService
+        self.resource = resource
 
-    searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-      .distinctUntilChanged()
-      .compactMap { $0 }
-      .filter { !$0.isEmpty }
-      .subscribe(onNext: { [weak self] query in
-        guard let self = self else {
-          return
+        searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .subscribe(onNext: { [weak self] query in
+                guard let self = self else {
+                    return
+                }
+               // self.recipes.accept(self.filterBy(query))
+            }).disposed(by: disposeBag)
+
+        filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
+            guard let self = self else {
+                return
+            }
+            let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
+           // self.recipes.accept(filtered)
+        }).disposed(by: disposeBag)
+
+        filterByTime.subscribe(onNext: { [weak self] newTime in
+            guard let self = self else {
+                return
+            }
+            let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
+           // self.recipes.accept(filtered)
+        }).disposed(by: disposeBag)
+    }
+
+    func loadRecipes() {
+        networkService.load(resource) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                //TODO: Handle errors
+                break
+            case .success(let recipes):
+                self?.allRecipes = recipes
+            }
         }
-        self.recipes.accept(self.filterBy(query))
-      }).disposed(by: disposeBag)
-
-    filterByComplexity.subscribe(onNext: { [weak self] newComplexity in
-      guard let self = self else {
-        return
-      }
-      let filtered = self.filterBy(complexityStr: newComplexity, timeStr: self.filterByTime.value)
-      self.recipes.accept(filtered)
-    }).disposed(by: disposeBag)
-
-    filterByTime.subscribe(onNext: { [weak self] newTime in
-      guard let self = self else {
-        return
-      }
-      let filtered = self.filterBy(complexityStr: self.filterByComplexity.value, timeStr: newTime)
-      self.recipes.accept(filtered)
-    }).disposed(by: disposeBag)
-  }
-
+    }
 }
 
 //MARK: - Filtering
