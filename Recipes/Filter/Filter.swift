@@ -20,8 +20,8 @@ class FilterManager {
         filters.difficulty = difficulty
     }
 
-    func set(time: Time?) {
-        filters.time = time
+    func set(preparationTime: PreparationTime?) {
+        filters.preparationTime = preparationTime
     }
 
     func set(recipes: [Recipe]) {
@@ -37,8 +37,8 @@ class FilterManager {
                 isDifficultyMatch = difficulty == Difficulty(recipe: recipe)
             }
 
-            if let time = filters.time {
-                isTimeMatch = time == Time(recipe: recipe)
+            if let time = filters.preparationTime {
+                isTimeMatch = time == PreparationTime(recipe: recipe)
             }
 
             return isDifficultyMatch && isTimeMatch

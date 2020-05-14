@@ -17,7 +17,7 @@ class RecipesViewModel {
     }()
 
     let timeTitles: [String] = {
-        var titles = Time.allValues.map({ $0.rawValue })
+        var titles = PreparationTime.allValues.map({ $0.rawValue })
         titles.append("All")
         return titles
     }()
@@ -28,7 +28,7 @@ class RecipesViewModel {
 
     var shouldUpdateContent: (NetworkError?) -> Void = { _ in }
     var didSelectDifficultyFilter: (Difficulty?) -> Void = { _ in }
-    var didSelectTimeFilter: (Time?) -> Void = { _ in }
+    var didSelectTimeFilter: (PreparationTime?) -> Void = { _ in }
 
     private var filter = FilterManager(filters: RecipeFilters())
 
@@ -72,11 +72,11 @@ extension RecipesViewModel {
     }
 
     func filterByTime(rawValue: String) {
-        let time = Time(rawValue: rawValue)
-        filter.set(time: time)
+        let preparationTime = PreparationTime(rawValue: rawValue)
+        filter.set(preparationTime: preparationTime)
         recipes = filter.filterRecipes()
 
-        didSelectTimeFilter(time)
+        didSelectTimeFilter(preparationTime)
         shouldUpdateContent(nil)
     }
 }

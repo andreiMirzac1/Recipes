@@ -9,11 +9,11 @@
 import Foundation
 
 struct RecipeFilters {
-    var time: Time?
+    var preparationTime: PreparationTime?
     var difficulty: Difficulty?
 
-    init(time: Time? = nil, difficulty: Difficulty? = nil) {
-        self.time = time
+    init(preparationTime: PreparationTime? = nil, difficulty: Difficulty? = nil) {
+        self.preparationTime = preparationTime
         self.difficulty = difficulty
     }
 }
