@@ -34,6 +34,11 @@ extension DependencyContainer: RecipesViewControllerFactory {
         titles.append("All")
         return titles
     }
+
+    func makeRecipeDetailViewController(recipe: Recipe) -> RecipeDetailViewController {
+        let viewModel = RecipeDetailViewModel(recipe: recipe)
+        return RecipeDetailViewController(viewModel: viewModel)
+    }
 }
 
 

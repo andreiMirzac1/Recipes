@@ -180,8 +180,7 @@ extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let recipe = viewModel.recipes[indexPath.row]
-        let recipeDetailViewModel = RecipeDetailViewModel(recipe: recipe)
-        let viewController = RecipeDetailViewController(viewModel: recipeDetailViewModel)
+        let viewController = factory.makeRecipeDetailViewController(recipe: recipe)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

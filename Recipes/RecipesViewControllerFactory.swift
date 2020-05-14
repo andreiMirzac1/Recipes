@@ -11,5 +11,6 @@ import Foundation
 protocol RecipesViewControllerFactory {
     func makeRecipesViewModel() -> RecipesViewModel
     func makeFilterDifficultyTitles() -> [String]
-    func makeFilterPreparationTimeTitles() -> [String] 
+    func makeFilterPreparationTimeTitles() -> [String]
+    func makeRecipeDetailViewController(recipe: Recipe) -> RecipeDetailViewController
 }
