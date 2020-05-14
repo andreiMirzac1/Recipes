@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Ingredient: Codable {
+struct Ingredient: Codable, Equatable {
     var quantity: String
     var name: String
     var type: String

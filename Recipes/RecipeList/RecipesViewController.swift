@@ -13,7 +13,7 @@ class RecipesViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var difficultyButton: UIButton!
     @IBOutlet var timeButton: UIButton!
-    let refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
 
     let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
     let columns: CGFloat = 2

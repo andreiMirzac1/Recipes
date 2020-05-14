@@ -10,7 +10,7 @@ import Foundation
 
 class FilterManager {
     private var recipes: [Recipe] = []
-    private var filters: RecipeFilters
+    private(set) var filters: RecipeFilters
 
     init(filters: RecipeFilters) {
         self.filters = filters

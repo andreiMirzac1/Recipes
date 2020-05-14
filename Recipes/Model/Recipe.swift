@@ -8,13 +8,11 @@
 
 import Foundation
 
-struct Recipe: Codable {
+struct Recipe: Codable, Equatable {
     var name: String
     var ingredients: [Ingredient]
     var steps: [String]
     var timers: [Int]
     var imageURL: String
     var originalURL: String?
-
-
 }

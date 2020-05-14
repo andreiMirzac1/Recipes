@@ -33,6 +33,13 @@
 		05797BA520D65A2200A7EA7A /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05797BA420D65A2200A7EA7A /* Difficulty.swift */; };
 		0583F105246D8DAA007AC631 /* RecipeFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */; };
 		0583F107246D97D7007AC631 /* RecipeFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583F106246D97D7007AC631 /* RecipeFilters.swift */; };
+		0583F109246DA40B007AC631 /* allRecipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F108246DA40A007AC631 /* allRecipes.json */; };
+		0583F110246DA410007AC631 /* recipe_complexity_easy.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10A246DA410007AC631 /* recipe_complexity_easy.json */; };
+		0583F111246DA410007AC631 /* recipe_complexity_medium.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10B246DA410007AC631 /* recipe_complexity_medium.json */; };
+		0583F112246DA410007AC631 /* recipe_time_10_20min.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10C246DA410007AC631 /* recipe_time_10_20min.json */; };
+		0583F113246DA410007AC631 /* recipe_time_more_then_20min.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10D246DA410007AC631 /* recipe_time_more_then_20min.json */; };
+		0583F114246DA410007AC631 /* recipe_complexity_hard.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10E246DA410007AC631 /* recipe_complexity_hard.json */; };
+		0583F115246DA410007AC631 /* recipe_time_0_10min.json in Resources */ = {isa = PBXBuildFile; fileRef = 0583F10F246DA410007AC631 /* recipe_time_0_10min.json */; };
 		058C713120D19C8200B5C151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C713020D19C8200B5C151 /* AppDelegate.swift */; };
 		058C713320D19C8200B5C151 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C713220D19C8200B5C151 /* RecipesViewController.swift */; };
 		058C713620D19C8200B5C151 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 058C713420D19C8200B5C151 /* Main.storyboard */; };
@@ -40,7 +47,7 @@
 		058C714620D19C8500B5C151 /* RecipesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C714520D19C8500B5C151 /* RecipesTests.swift */; };
 		058C716020D1B12100B5C151 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C715F20D1B12100B5C151 /* Recipe.swift */; };
 		058C716220D1B3E600B5C151 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C716120D1B3E600B5C151 /* Ingredient.swift */; };
-		05AF913720D7709600ECAC47 /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 05AF913620D76EAF00ECAC47 /* recipes.json */; };
+		05AF913720D7709600ECAC47 /* oneRecipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 05AF913620D76EAF00ECAC47 /* oneRecipe.json */; };
 		05BA4DB020D6B412000DB787 /* RecipeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA4DAF20D6B412000DB787 /* RecipeDetailViewModel.swift */; };
 		05BA4DB320D6B60E000DB787 /* RecipeIngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BA4DB220D6B60E000DB787 /* RecipeIngredientCell.swift */; };
 		05BA4DB520D6B61F000DB787 /* RecipeIngredientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05BA4DB420D6B61F000DB787 /* RecipeIngredientCell.xib */; };
@@ -93,6 +100,13 @@
 		05797BA420D65A2200A7EA7A /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
 		0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterTests.swift; sourceTree = "<group>"; };
 		0583F106246D97D7007AC631 /* RecipeFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilters.swift; sourceTree = "<group>"; };
+		0583F108246DA40A007AC631 /* allRecipes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = allRecipes.json; sourceTree = "<group>"; };
+		0583F10A246DA410007AC631 /* recipe_complexity_easy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_complexity_easy.json; sourceTree = "<group>"; };
+		0583F10B246DA410007AC631 /* recipe_complexity_medium.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_complexity_medium.json; sourceTree = "<group>"; };
+		0583F10C246DA410007AC631 /* recipe_time_10_20min.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_time_10_20min.json; sourceTree = "<group>"; };
+		0583F10D246DA410007AC631 /* recipe_time_more_then_20min.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_time_more_then_20min.json; sourceTree = "<group>"; };
+		0583F10E246DA410007AC631 /* recipe_complexity_hard.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_complexity_hard.json; sourceTree = "<group>"; };
+		0583F10F246DA410007AC631 /* recipe_time_0_10min.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = recipe_time_0_10min.json; sourceTree = "<group>"; };
 		058C712D20D19C8200B5C151 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		058C713020D19C8200B5C151 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		058C713220D19C8200B5C151 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
@@ -107,7 +121,7 @@
 		058C715220D19C8500B5C151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		058C715F20D1B12100B5C151 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		058C716120D1B3E600B5C151 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
-		05AF913620D76EAF00ECAC47 /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
+		05AF913620D76EAF00ECAC47 /* oneRecipe.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = oneRecipe.json; sourceTree = "<group>"; };
 		05BA4DAF20D6B412000DB787 /* RecipeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewModel.swift; sourceTree = "<group>"; };
 		05BA4DB220D6B60E000DB787 /* RecipeIngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeIngredientCell.swift; sourceTree = "<group>"; };
 		05BA4DB420D6B61F000DB787 /* RecipeIngredientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipeIngredientCell.xib; sourceTree = "<group>"; };
@@ -262,8 +276,15 @@
 				050EBFE3246C6A9600E3A054 /* NetworkingTests */,
 				058C714520D19C8500B5C151 /* RecipesTests.swift */,
 				0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */,
+				0583F108246DA40A007AC631 /* allRecipes.json */,
+				0583F10A246DA410007AC631 /* recipe_complexity_easy.json */,
+				0583F10E246DA410007AC631 /* recipe_complexity_hard.json */,
+				0583F10B246DA410007AC631 /* recipe_complexity_medium.json */,
+				0583F10F246DA410007AC631 /* recipe_time_0_10min.json */,
+				0583F10C246DA410007AC631 /* recipe_time_10_20min.json */,
+				0583F10D246DA410007AC631 /* recipe_time_more_then_20min.json */,
 				058C714720D19C8500B5C151 /* Info.plist */,
-				05AF913620D76EAF00ECAC47 /* recipes.json */,
+				05AF913620D76EAF00ECAC47 /* oneRecipe.json */,
 			);
 			path = RecipesTests;
 			sourceTree = "<group>";
@@ -420,7 +441,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05AF913720D7709600ECAC47 /* recipes.json in Resources */,
+				0583F114246DA410007AC631 /* recipe_complexity_hard.json in Resources */,
+				0583F115246DA410007AC631 /* recipe_time_0_10min.json in Resources */,
+				0583F113246DA410007AC631 /* recipe_time_more_then_20min.json in Resources */,
+				05AF913720D7709600ECAC47 /* oneRecipe.json in Resources */,
+				0583F110246DA410007AC631 /* recipe_complexity_easy.json in Resources */,
+				0583F111246DA410007AC631 /* recipe_complexity_medium.json in Resources */,
+				0583F109246DA40B007AC631 /* allRecipes.json in Resources */,
+				0583F112246DA410007AC631 /* recipe_time_10_20min.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
