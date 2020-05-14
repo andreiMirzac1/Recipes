@@ -7,17 +7,15 @@
 //
 
 import Foundation
-import RxSwift
-import RxCocoa
 
 class RecipesViewModel {
 
-    var shouldUpdateContent: () -> Void = { }
-    var didSelectComplexityFilter: (Complexity?) -> Void = { _ in }
+    var shouldUpdateContent: (NetworkError?) -> Void = { _ in }
+    var didSelectDifficultyFilter: (Difficulty?) -> Void = { _ in }
     var didSelectTimeFilter: (Time?) -> Void = { _ in }
 
-    let complexityTitles: [String] = {
-        var titles = Complexity.allValues.map({ $0.rawValue })
+    let difficultyTitles: [String] = {
+        var titles = Difficulty.allValues.map({ $0.rawValue })
         titles.append("All")
         return titles
     }()
@@ -28,61 +26,54 @@ class RecipesViewModel {
         return titles
     }()
 
+    var navigationBarTitle: String {
+        return "Recipes"
+    }
+
     //output
-    let disposeBag = DisposeBag()
     var filter: RecipeFilter?
 
-    // input
-    let searchText: PublishSubject<String?> = PublishSubject()
-    private let networkService: NetworkService
+    private let networkService: Networking
     private let resource: Resource<[Recipe]>
     private var allRecipes: [Recipe] = []
     var recipes: [Recipe] = []
-    // input output
 
-    init(networkService: NetworkService, resource: Resource<[Recipe]>) {
+    init(networkService: Networking, resource: Resource<[Recipe]>) {
         self.networkService = networkService
         self.resource = resource
-
-        searchText.debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .compactMap { $0 }
-            .filter { !$0.isEmpty }
-            .subscribe(onNext: { [weak self] query in
-                guard let self = self else {
-                    return
-                }
-                // self.recipes.accept(self.filterBy(query))
-            }).disposed(by: disposeBag)
     }
 
-    func loadRecipes() {
-        networkService.load(resource) { [weak self] result in
+    func loadRecipes(isRefresh: Bool = false) {
+        networkService.load(valueType: [Recipe].self, urlString: resource.url, isRefresh: isRefresh) { [weak self] result in
             switch result {
             case .failure(let error):
-                //TODO: Handle errors
-                break
+                 self?.shouldUpdateContent(error)
             case .success(let recipes):
-                self?.allRecipes = recipes
-                self?.filter = RecipeFilter(recipes: recipes)
-                self?.recipes = recipes
+                self?.updateRecipes(recipes: recipes)
             }
-            self?.shouldUpdateContent()
         }
+    }
+
+    private func updateRecipes(recipes: [Recipe]) {
+        allRecipes = recipes
+        filter = RecipeFilter(recipes: allRecipes)
+        self.recipes = allRecipes
+        shouldUpdateContent(nil)
     }
 }
 
 //MARK: - Filtering
 extension RecipesViewModel {
 
-    func filterByComplexity(rawValue: String) {
+    func filterByDifficulty(rawValue: String) {
         guard let filter = filter else {
             return
         }
 
-        let complexity = Complexity(rawValue: rawValue)
-        recipes = filter.filterBy(complexity: complexity)
-        shouldUpdateContent()
+        let difficulty = Difficulty(rawValue: rawValue)
+        recipes = filter.filterBy(difficulty: difficulty)
+        shouldUpdateContent(nil)
+        didSelectDifficultyFilter(difficulty)
     }
 
     func filterByTime(rawValue: String) {
@@ -92,11 +83,8 @@ extension RecipesViewModel {
 
         let time = Time(rawValue: rawValue)
         recipes = filter.filterBy(time: time)
-        shouldUpdateContent()
-    }
-
-    private func filterBy(_ searchText: String) -> [Recipe] {
-        return allRecipes.filter({ $0.containsOccurence(of: searchText) })
+        shouldUpdateContent(nil)
+        didSelectTimeFilter(time)
     }
 }
 

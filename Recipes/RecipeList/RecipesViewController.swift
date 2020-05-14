@@ -7,16 +7,13 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 
 class RecipesViewController: UIViewController {
 
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var complexityButton: UIButton!
+    @IBOutlet var difficultyButton: UIButton!
     @IBOutlet var timeButton: UIButton!
-
-    let disposeBag = DisposeBag()
+    let refreshControl = UIRefreshControl()
 
     let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
     let columns: CGFloat = 2
@@ -24,12 +21,8 @@ class RecipesViewController: UIViewController {
     let spaceBetweenColumns: CGFloat = 0
     let interitemSpacing: CGFloat = 10
 
-    /// SearchController
-    let searchController = UISearchController(searchResultsController: nil)
-
-    //Filter button tags
     enum FilterButton: Int {
-        case complexity = 1
+        case difficulty = 1
         case time
     }
 
@@ -42,35 +35,59 @@ class RecipesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
-        setupSearchController()
+        setUpRefreshControl()
         bindToViewModel()
+        styleFilterButtons()
+        navigationItem.title = viewModel.navigationBarTitle
         viewModel.loadRecipes()
     }
 
     func bindToViewModel() {
-        viewModel.shouldUpdateContent = { [weak self] in
+        viewModel.shouldUpdateContent = { [weak self] error in
             self?.collectionView.reloadData()
+            self?.refreshControl.endRefreshing()
+
+            if let error = error  {
+                self?.showAlert(title: "Network Error", message: error.localizedDescription)
+            }
         }
 
         viewModel.didSelectTimeFilter = { [weak self] time in
-
-            self?.timeButton.setTitle("Time \(time?.rawValue ?? "All")", for: .normal)
+            self?.timeButton.setTitle("Time: \(time?.rawValue ?? "All")", for: .normal)
         }
 
-        viewModel.didSelectComplexityFilter = { [weak self] complexity in
-            self?.complexityButton.setTitle("Complexity \(complexity?.rawValue ?? "All")", for: .normal)
+        viewModel.didSelectDifficultyFilter = { [weak self] difficulty in
+            self?.difficultyButton.setTitle("Difficulty: \(difficulty?.rawValue ?? "All")", for: .normal)
         }
-
-        //Search Text
-        searchController.searchBar.rx.text.bind(to: viewModel.searchText).disposed(by: disposeBag)
     }
 
     func registerCells() {
         let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
     }
-}
 
+    func setUpRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+
+    @objc func pullToRefresh(refreshControl: UIRefreshControl) {
+        viewModel.loadRecipes(isRefresh: true)
+    }
+
+    func showAlert(title: String, message: String?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true)
+    }
+
+    func styleFilterButtons() {
+        difficultyButton.layer.cornerRadius = 15
+        timeButton.layer.cornerRadius = 15
+    }
+}
+//MARK: -
 extension RecipesViewController {
 
     @IBAction func filterBy(sender: UIButton) {
@@ -80,8 +97,8 @@ extension RecipesViewController {
 
         var actionTitles = [String]()
         switch buttonType {
-        case .complexity:
-            actionTitles = viewModel.complexityTitles
+        case .difficulty:
+            actionTitles = viewModel.difficultyTitles
         case .time:
             actionTitles = viewModel.timeTitles
         }
@@ -92,8 +109,8 @@ extension RecipesViewController {
             }
 
             switch buttonType {
-            case .complexity:
-                self.viewModel.filterByComplexity(rawValue: title)
+            case .difficulty:
+                self.viewModel.filterByDifficulty(rawValue: title)
             case .time:
                 self.viewModel.filterByTime(rawValue: title)
             }
@@ -110,6 +127,8 @@ extension RecipesViewController {
         present(actionSheet, animated: true)
     }
 }
+
+//MARK: - UICollectionViewDelegateFlowLayout
 
 extension RecipesViewController: UICollectionViewDelegateFlowLayout {
 
@@ -141,8 +160,10 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spaceBetweenRows
     }
+
 }
 
+//MARK: - UICollectionViewDataSource UICollectionViewDelegate
 extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.recipes.count
@@ -164,12 +185,3 @@ extension RecipesViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
-extension RecipesViewController {
-
-    func setupSearchController() {
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search recipe by name, ingredients, steps"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-    }
-}

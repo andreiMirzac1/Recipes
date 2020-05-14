@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import Kingfisher
 
 class RecipeListViewCell: UICollectionViewCell {
     @IBOutlet var image: UIImageView!
@@ -17,23 +16,28 @@ class RecipeListViewCell: UICollectionViewCell {
     @IBOutlet var time: UILabel!
     
     func setUp(recipe: Recipe) {
-        let url = URL(string: recipe.imageURL)
-        image.kf.setImage(with: url)
-        
+
+        loadImage(with: recipe.imageURL)
         title.text = recipe.name
         
-        let attrIngredients =  NSMutableAttributedString(string: "Ingredients: ", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12.0)])
+        let attrIngredients =  NSMutableAttributedString(string: "Ingredients: ", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 12.0)])
         let ingredientsString = NSMutableAttributedString(string: recipe.ingredients.map({ $0.name }).joined(separator: ", "))
         attrIngredients.append(ingredientsString)
         ingredients.attributedText = attrIngredients
         
         time.text = String(recipe.timers.reduce(0, { $0 + $1 })) + " mins"
     }
-    
+
+    func loadImage(with urlString: String) {
+        guard let url = URL(string: urlString) else {
+            return
+        }
+        ImageDownloadManager.shared.downloadImage(with: url) { (image, url , error)  in
+            DispatchQueue.main.async {  [weak self] in
+                self?.image.image = image
+            }
+        }
+    }
 }
 
-extension UICollectionViewCell {
-  public static var reuseIdentifier: String {
-    return String(describing: self)
-  }
-}
+

@@ -26,12 +26,6 @@ struct Resource<A> {
     }
 }
 
-extension Resource {
-    var cacheKey: String {
-        return "cached_" + url.dropLast(5)
-    }
-}
-
 extension Resource where A: Codable {
     init(url: String, method: HttpMethod = .get) {
         self.url = url

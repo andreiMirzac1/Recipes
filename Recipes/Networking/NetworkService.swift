@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService {
+class NetworkService: Networking {
 
     let session: URLSession
 
@@ -15,8 +15,23 @@ class NetworkService {
         self.session = session
     }
 
-    func load<A>(_ resource: Resource<A>, completion: @escaping (Result<A, NetworkServiceError>) -> ()) {
-        session.dataTask(with: URL(string: resource.url)!, completionHandler: { data, response, error in
+    private func handleCache(isRefresh: Bool) {
+        if isRefresh {
+            URLCache.shared.removeAllCachedResponses()
+        }
+    }
+
+    func load<A: Codable>(valueType: A.Type, urlString: String, isRefresh: Bool = false, completion: @escaping (Result<A, NetworkError>) -> ()) {
+
+        handleCache(isRefresh: isRefresh)
+
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.invalidUrl))
+            return
+        }
+
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 10)
+        session.dataTask(with: request, completionHandler: { data, response, error in
 
             guard let httpResponse = response as? HTTPURLResponse,
                 httpResponse.statusCode == 200 else {
@@ -24,14 +39,17 @@ class NetworkService {
                     return
             }
 
-            guard let data = data, let value = resource.parse(data) else {
-                DispatchQueue.main.async{ completion(.failure(.failedToParse)) }
+            guard let data = data else {
+                DispatchQueue.main.async{ completion(.failure(.dataNotFound)) }
                 return
             }
 
-            DispatchQueue.main.async{ completion(.success(value)) }
-
+            do {
+                let value = try JSONDecoder().decode(A.self, from: data)
+                DispatchQueue.main.async{ completion(.success(value)) }
+            } catch {
+                DispatchQueue.main.async{ completion(.failure(.failureToDecodeData)) }
+            }
         }).resume()
     }
 }
-

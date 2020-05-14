@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aHX-R3-nLt">
-                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="104" width="375" height="563"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Onj-zs-59b">
                                     <size key="itemSize" width="50" height="50"/>
@@ -40,13 +40,13 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="9CU-TD-xAS"/>
                                 </connections>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Y13-t2-62E">
-                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Y13-t2-62E">
+                                <rect key="frame" x="8" y="52" width="359" height="44"/>
                                 <subviews>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKp-lz-KsH">
-                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="175.5" height="44"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                        <state key="normal" title="Complexity: All">
+                                        <state key="normal" title="Difficulty: All">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
@@ -54,7 +54,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uso-0Q-urr">
-                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="44"/>
+                                        <rect key="frame" x="183.5" y="0.0" width="175.5" height="44"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <state key="normal" title="Time: All">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -71,12 +71,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Y13-t2-62E" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="2dp-dO-elQ"/>
+                            <constraint firstItem="Y13-t2-62E" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="2dp-dO-elQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="aHX-R3-nLt" secondAttribute="bottom" id="Kfz-e3-5hL"/>
-                            <constraint firstItem="aHX-R3-nLt" firstAttribute="top" secondItem="Y13-t2-62E" secondAttribute="bottom" id="MTU-iJ-y1C"/>
+                            <constraint firstItem="aHX-R3-nLt" firstAttribute="top" secondItem="Y13-t2-62E" secondAttribute="bottom" constant="8" id="MTU-iJ-y1C"/>
                             <constraint firstItem="aHX-R3-nLt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bg6-Xd-il2"/>
-                            <constraint firstItem="Y13-t2-62E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="evl-bT-aJ1"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Y13-t2-62E" secondAttribute="trailing" id="fUK-i6-98J"/>
+                            <constraint firstItem="Y13-t2-62E" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="evl-bT-aJ1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Y13-t2-62E" secondAttribute="trailing" constant="8" id="fUK-i6-98J"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aHX-R3-nLt" secondAttribute="trailing" id="wdW-J8-jg0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -84,7 +84,7 @@
                     <navigationItem key="navigationItem" id="ixg-1J-pJP"/>
                     <connections>
                         <outlet property="collectionView" destination="aHX-R3-nLt" id="d38-Ih-O2T"/>
-                        <outlet property="complexityButton" destination="WKp-lz-KsH" id="sXJ-Yw-uJ6"/>
+                        <outlet property="difficultyButton" destination="WKp-lz-KsH" id="sXJ-Yw-uJ6"/>
                         <outlet property="timeButton" destination="uso-0Q-urr" id="gWG-86-5tn"/>
                     </connections>
                 </viewController>
