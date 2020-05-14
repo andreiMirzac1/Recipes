@@ -21,6 +21,14 @@ class RecipesViewController: UIViewController {
     let spaceBetweenColumns: CGFloat = 0
     let interitemSpacing: CGFloat = 10
 
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     enum FilterButton: Int {
         case difficulty = 1
         case time
