@@ -25,5 +25,5 @@ class RecipeStepCell: UITableViewCell {
         heightConstraint.priority = .defaultHigh
         heightConstraint.isActive = true
     }
-
+    
 }

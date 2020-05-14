@@ -17,7 +17,7 @@ class RecipeImageCell: UITableViewCell {
         loadImage(with: imageURL)
         recipeTitle.text = title
     }
-
+    
     func loadImage(with urlString: String) {
         guard let url = URL(string: urlString) else {
             return

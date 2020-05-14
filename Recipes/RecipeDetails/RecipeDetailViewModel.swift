@@ -35,11 +35,11 @@ extension RecipeDetailViewModel {
         case image(String, title: String)
         case ingredients([Ingredient])
         case steps([String])
-
+        
         var cellIdentifier: String {
             return String(describing: cellType)
         }
-
+        
         var cellType: UITableViewCell.Type {
             switch  self {
             case .image:
