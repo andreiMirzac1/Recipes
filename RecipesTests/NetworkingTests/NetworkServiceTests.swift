@@ -56,10 +56,9 @@ class NetworkServiceTests: XCTestCase {
     
     func testNetworkServiceLoadsSuccesfully() {
 
-        let recipesData = StubLoader.loadData(from: "recipes")!
+        let recipesData = StubLoader.loadData(from: "oneRecipe")!
         let mockData = MockNetworkData(url: urlString, statusCode: 200, data: recipesData)
         MockNetworkServiceHelper.configure(with: mockData)
-
 
         let expectation = XCTestExpectation(description: "NetworkService")
         networkService.load(valueType: [Recipe].self, urlString: urlString) { result in
@@ -67,8 +66,9 @@ class NetworkServiceTests: XCTestCase {
             case .failure:
                 XCTFail("Expected a success result")
             case .success(let result):
-
+                let recipes: [Recipe] = StubLoader.load(fileName: "oneRecipe")!
                 XCTAssert(result.count == 1)
+                XCTAssert(result.first == recipes.first)
             }
             expectation.fulfill()
         }
