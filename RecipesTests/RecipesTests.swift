@@ -14,9 +14,6 @@ class RecipesTests: XCTestCase {
         super.setUp()
     }
     
-    func testCountAllRecipes() {
-    }
-    
 }
 
 

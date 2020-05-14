@@ -232,6 +232,21 @@
 			path = Filter;
 			sourceTree = "<group>";
 		};
+		0583F117246DAC53007AC631 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				05AF913620D76EAF00ECAC47 /* oneRecipe.json */,
+				0583F108246DA40A007AC631 /* allRecipes.json */,
+				0583F10A246DA410007AC631 /* recipe_complexity_easy.json */,
+				0583F10E246DA410007AC631 /* recipe_complexity_hard.json */,
+				0583F10B246DA410007AC631 /* recipe_complexity_medium.json */,
+				0583F10F246DA410007AC631 /* recipe_time_0_10min.json */,
+				0583F10C246DA410007AC631 /* recipe_time_10_20min.json */,
+				0583F10D246DA410007AC631 /* recipe_time_more_then_20min.json */,
+			);
+			path = Stubs;
+			sourceTree = "<group>";
+		};
 		058C712420D19C8200B5C151 = {
 			isa = PBXGroup;
 			children = (
@@ -273,18 +288,11 @@
 		058C714420D19C8500B5C151 /* RecipesTests */ = {
 			isa = PBXGroup;
 			children = (
+				0583F117246DAC53007AC631 /* Stubs */,
 				050EBFE3246C6A9600E3A054 /* NetworkingTests */,
 				058C714520D19C8500B5C151 /* RecipesTests.swift */,
 				0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */,
-				0583F108246DA40A007AC631 /* allRecipes.json */,
-				0583F10A246DA410007AC631 /* recipe_complexity_easy.json */,
-				0583F10E246DA410007AC631 /* recipe_complexity_hard.json */,
-				0583F10B246DA410007AC631 /* recipe_complexity_medium.json */,
-				0583F10F246DA410007AC631 /* recipe_time_0_10min.json */,
-				0583F10C246DA410007AC631 /* recipe_time_10_20min.json */,
-				0583F10D246DA410007AC631 /* recipe_time_more_then_20min.json */,
 				058C714720D19C8500B5C151 /* Info.plist */,
-				05AF913620D76EAF00ECAC47 /* oneRecipe.json */,
 			);
 			path = RecipesTests;
 			sourceTree = "<group>";
