@@ -30,25 +30,25 @@ class RecipeDetailViewModel {
     }
 }
 
-enum SectionContent {
-    case image(String, title: String)
-    case ingredients([Ingredient])
-    case steps([String])
-}
+extension RecipeDetailViewModel {
+    enum SectionContent {
+        case image(String, title: String)
+        case ingredients([Ingredient])
+        case steps([String])
 
-extension SectionContent {
-    var cellIdentifier: String {
-        return String(describing: cellType)
-    }
-    
-    var cellType: UITableViewCell.Type {
-        switch  self {
-        case .image:
-            return RecipeImageCell.self
-        case .ingredients:
-            return RecipeIngredientCell.self
-        case .steps:
-            return RecipeStepCell.self
+        var cellIdentifier: String {
+            return String(describing: cellType)
+        }
+
+        var cellType: UITableViewCell.Type {
+            switch  self {
+            case .image:
+                return RecipeImageCell.self
+            case .ingredients:
+                return RecipeIngredientCell.self
+            case .steps:
+                return RecipeStepCell.self
+            }
         }
     }
 }
