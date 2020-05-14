@@ -21,24 +21,17 @@ class RecipesViewController: UIViewController {
     let spaceBetweenColumns: CGFloat = 0
     let interitemSpacing: CGFloat = 10
 
-    init() {
+    let factory: RecipesViewControllerFactory
+    private lazy var viewModel = factory.makeRecipesViewModel()
+
+    init(factory: RecipesViewControllerFactory) {
+        self.factory = factory
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    enum FilterButton: Int {
-        case difficulty = 1
-        case time
-    }
-
-    lazy var viewModel: RecipesViewModel =  {
-        let url = "https://mobile.asosservices.com/sampleapifortest/recipes.json"
-        let resource = Resource<[Recipe]>(url: url)
-        return RecipesViewModel(networkService: NetworkService(), resource: resource)
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,44 +88,45 @@ class RecipesViewController: UIViewController {
         timeButton.layer.cornerRadius = 15
     }
 }
-//MARK: -
+
+//MARK: - AlertController Factory
 extension RecipesViewController {
 
-    @IBAction func filterBy(sender: UIButton) {
-        guard let buttonType = FilterButton(rawValue: sender.tag) else {
-            return
-        }
-
-        var actionTitles = [String]()
-        switch buttonType {
-        case .difficulty:
-            actionTitles = viewModel.difficultyTitles
-        case .time:
-            actionTitles = viewModel.timeTitles
-        }
-
+    @IBAction func filterByPreparationTime(sender: UIButton) {
         let actionClosure: (UIAlertAction) -> () = { action in
             guard let title = action.title else {
                 return
             }
+            self.viewModel.filterByTime(rawValue: title)
+        }
+        let actionTitles = factory.makeFilterPreparationTimeTitles()
+        let alertController = createAlertController(actionTitles: actionTitles, handler: actionClosure)
+        present(alertController, animated: true)
+    }
 
-            switch buttonType {
-            case .difficulty:
-                self.viewModel.filterByDifficulty(rawValue: title)
-            case .time:
-                self.viewModel.filterByTime(rawValue: title)
+    @IBAction func filterByDifficulty(sender: UIButton) {
+        let actionClosure: (UIAlertAction) -> () = { action in
+            guard let title = action.title else {
+                return
             }
+            self.viewModel.filterByDifficulty(rawValue: title)
         }
 
+        let actionTitles = factory.makeFilterDifficultyTitles()
+        let alertController = createAlertController(actionTitles: actionTitles, handler: actionClosure)
+        present(alertController, animated: true)
+    }
+
+    private func createAlertController(actionTitles: [String], handler: ((UIAlertAction) -> ())?) -> UIAlertController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheet.addAction(cancel)
 
         for title in actionTitles {
-            let action = UIAlertAction(title: title, style: .default, handler: actionClosure)
+            let action = UIAlertAction(title: title, style: .default, handler: handler)
             actionSheet.addAction(action)
         }
-        present(actionSheet, animated: true)
+        return actionSheet
     }
 }
 

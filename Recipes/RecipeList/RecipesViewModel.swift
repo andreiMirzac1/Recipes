@@ -10,18 +10,6 @@ import Foundation
 
 class RecipesViewModel {
 
-    let difficultyTitles: [String] = {
-        var titles = Difficulty.allValues.map({ $0.rawValue })
-        titles.append("All")
-        return titles
-    }()
-
-    let timeTitles: [String] = {
-        var titles = PreparationTime.allValues.map({ $0.rawValue })
-        titles.append("All")
-        return titles
-    }()
-
     var navigationBarTitle: String {
         return "Recipes"
     }

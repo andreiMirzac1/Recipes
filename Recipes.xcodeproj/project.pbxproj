@@ -29,6 +29,8 @@
 		0529A696246B673C00EE2843 /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529A695246B673C00EE2843 /* UICollectionViewCellExtension.swift */; };
 		0529A698246C053400EE2843 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529A697246C053400EE2843 /* DateExtensions.swift */; };
 		05361439246DE786008560A9 /* RecipesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05361438246DE786008560A9 /* RecipesViewController.xib */; };
+		0536143B246DEB20008560A9 /* DependecyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0536143A246DEB20008560A9 /* DependecyContainer.swift */; };
+		0536143D246DEE6F008560A9 /* RecipesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0536143C246DEE6F008560A9 /* RecipesViewControllerFactory.swift */; };
 		0551FE9220D670AB001266A2 /* RecipeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FE9120D670AB001266A2 /* RecipeDetailsViewController.swift */; };
 		05797BA320D65A0D00A7EA7A /* PreparationTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05797BA220D65A0D00A7EA7A /* PreparationTime.swift */; };
 		05797BA520D65A2200A7EA7A /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05797BA420D65A2200A7EA7A /* Difficulty.swift */; };
@@ -96,6 +98,8 @@
 		0529A695246B673C00EE2843 /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
 		0529A697246C053400EE2843 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		05361438246DE786008560A9 /* RecipesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecipesViewController.xib; sourceTree = "<group>"; };
+		0536143A246DEB20008560A9 /* DependecyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependecyContainer.swift; sourceTree = "<group>"; };
+		0536143C246DEE6F008560A9 /* RecipesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewControllerFactory.swift; sourceTree = "<group>"; };
 		0551FE9120D670AB001266A2 /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
 		05797BA220D65A0D00A7EA7A /* PreparationTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreparationTime.swift; sourceTree = "<group>"; };
 		05797BA420D65A2200A7EA7A /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
@@ -281,6 +285,8 @@
 				058C713920D19C8500B5C151 /* LaunchScreen.storyboard */,
 				05BC4240246D6075001E21CC /* Assets.xcassets */,
 				058C713C20D19C8500B5C151 /* Info.plist */,
+				0536143A246DEB20008560A9 /* DependecyContainer.swift */,
+				0536143C246DEE6F008560A9 /* RecipesViewControllerFactory.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -489,6 +495,8 @@
 				0519FD3D20D2ACEF00013285 /* NetworkService.swift in Sources */,
 				0519FD3520D2A06100013285 /* Resource.swift in Sources */,
 				05BA4DB320D6B60E000DB787 /* RecipeIngredientCell.swift in Sources */,
+				0536143B246DEB20008560A9 /* DependecyContainer.swift in Sources */,
+				0536143D246DEE6F008560A9 /* RecipesViewControllerFactory.swift in Sources */,
 				05797BA520D65A2200A7EA7A /* Difficulty.swift in Sources */,
 				0551FE9220D670AB001266A2 /* RecipeDetailsViewController.swift in Sources */,
 				050B9817246B4E830014F572 /* Filter.swift in Sources */,

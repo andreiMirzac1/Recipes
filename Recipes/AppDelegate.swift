@@ -15,11 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
-        let viewController = RecipesViewController()
-        let rootNavigation = UINavigationController(rootViewController: viewController)
-        window?.rootViewController = rootNavigation
+        let container = DependencyContainer()
+        let viewController = container.makeRecipesViewController()
+        window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
+
         URLCache.configureSharedURLCache(memoryCapacityInMb: 0, diskCapacityInMb: 30)
+
         return true
     }
 }
