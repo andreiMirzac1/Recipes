@@ -141,8 +141,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
         let availableWidth = screenWidth - paddingSpace - interitemSpacing
         let width = availableWidth / columns
 
-        // Height
-        let height = width + (width * 0.50)
+        let height = width + (width / 2)
 
         return CGSize(width: width, height: height)
     }

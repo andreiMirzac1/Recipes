@@ -15,4 +15,6 @@ struct Recipe: Codable {
     var timers: [Int]
     var imageURL: String
     var originalURL: String?
+
+
 }

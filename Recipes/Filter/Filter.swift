@@ -8,9 +8,6 @@
 
 import Foundation
 
-protocol Filter {
-}
-
 class RecipeFilter {
     private var time: Time?
     private var difficulty: Difficulty?

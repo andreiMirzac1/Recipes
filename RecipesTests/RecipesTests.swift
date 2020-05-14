@@ -17,46 +17,6 @@ class RecipesTests: XCTestCase {
     func testCountAllRecipes() {
     }
     
-    func testFilterShouldReturnNoResults() {
-    }
-    
-    func testFilterResultsByRecipeName() {
-    }
-    
-    func testFilterRecipeByIngredientKeyWord() {
-    }
-    
-    func testFilterResultByStepsKeyWord() {
-    }
-    
-    func testFilterResultByComplexityEasy() {
-    }
-    
-    func testFilterResultByComplexityMedium() {
-    }
-    
-    func testFilterResultByComplexityHard() {
-    }
-    
-    func testFilterResultByComplexityAll() {
-    }
-    
-    func testFilterResultByTimeLessThenTenMinutes() {
-    }
-    
-    func testFilterResultByTimeBetweenTenAndTwentyMinutes() {
-    }
-    
-    func testFilterResultByTimeMoreThenTwentyMinutes() {
-
-    }
-    
-    func testFilterResultBySlowTimeComplexityHard() {
-    }
-    
-    func testFilterIsResetWhenComplexityAndTimeIsSetToAll() {
-
-    }
 }
 
 

@@ -31,6 +31,7 @@
 		0551FE9220D670AB001266A2 /* RecipeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551FE9120D670AB001266A2 /* RecipeDetailsViewController.swift */; };
 		05797BA320D65A0D00A7EA7A /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05797BA220D65A0D00A7EA7A /* Time.swift */; };
 		05797BA520D65A2200A7EA7A /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05797BA420D65A2200A7EA7A /* Difficulty.swift */; };
+		0583F105246D8DAA007AC631 /* RecipeFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */; };
 		058C713120D19C8200B5C151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C713020D19C8200B5C151 /* AppDelegate.swift */; };
 		058C713320D19C8200B5C151 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058C713220D19C8200B5C151 /* RecipesViewController.swift */; };
 		058C713620D19C8200B5C151 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 058C713420D19C8200B5C151 /* Main.storyboard */; };
@@ -89,6 +90,7 @@
 		0551FE9120D670AB001266A2 /* RecipeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsViewController.swift; sourceTree = "<group>"; };
 		05797BA220D65A0D00A7EA7A /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		05797BA420D65A2200A7EA7A /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
+		0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFilterTests.swift; sourceTree = "<group>"; };
 		058C712D20D19C8200B5C151 /* Recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		058C713020D19C8200B5C151 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		058C713220D19C8200B5C151 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				050EBFE3246C6A9600E3A054 /* NetworkingTests */,
 				058C714520D19C8500B5C151 /* RecipesTests.swift */,
+				0583F104246D8DAA007AC631 /* RecipeFilterTests.swift */,
 				058C714720D19C8500B5C151 /* Info.plist */,
 				05AF913620D76EAF00ECAC47 /* recipes.json */,
 			);
@@ -464,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				050EBFE9246C78EC00E3A054 /* StubLoader.swift in Sources */,
+				0583F105246D8DAA007AC631 /* RecipeFilterTests.swift in Sources */,
 				050EBFDC246C586C00E3A054 /* NetworkServiceTests.swift in Sources */,
 				058C714620D19C8500B5C151 /* RecipesTests.swift in Sources */,
 				050EBFEB246C87FF00E3A054 /* MockNetworkServiceHelper.swift in Sources */,
