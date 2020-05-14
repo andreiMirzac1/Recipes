@@ -10,10 +10,6 @@ import Foundation
 
 class RecipesViewModel {
 
-    var shouldUpdateContent: (NetworkError?) -> Void = { _ in }
-    var didSelectDifficultyFilter: (Difficulty?) -> Void = { _ in }
-    var didSelectTimeFilter: (Time?) -> Void = { _ in }
-
     let difficultyTitles: [String] = {
         var titles = Difficulty.allValues.map({ $0.rawValue })
         titles.append("All")
@@ -30,13 +26,15 @@ class RecipesViewModel {
         return "Recipes"
     }
 
-    //output
-    var filter: RecipeFilter?
+    var shouldUpdateContent: (NetworkError?) -> Void = { _ in }
+    var didSelectDifficultyFilter: (Difficulty?) -> Void = { _ in }
+    var didSelectTimeFilter: (Time?) -> Void = { _ in }
+
+    private var filter = FilterManager(filters: RecipeFilters())
 
     private let networkService: Networking
     private let resource: Resource<[Recipe]>
-    private var allRecipes: [Recipe] = []
-    var recipes: [Recipe] = []
+    private(set) var recipes: [Recipe] = []
 
     init(networkService: Networking, resource: Resource<[Recipe]>) {
         self.networkService = networkService
@@ -55,9 +53,8 @@ class RecipesViewModel {
     }
 
     private func updateRecipes(recipes: [Recipe]) {
-        allRecipes = recipes
-        filter = RecipeFilter(recipes: allRecipes)
-        self.recipes = allRecipes
+        filter.set(recipes: recipes)
+        self.recipes = filter.filterRecipes()
         shouldUpdateContent(nil)
     }
 }
@@ -66,25 +63,21 @@ class RecipesViewModel {
 extension RecipesViewModel {
 
     func filterByDifficulty(rawValue: String) {
-        guard let filter = filter else {
-            return
-        }
-
         let difficulty = Difficulty(rawValue: rawValue)
-        recipes = filter.filterBy(difficulty: difficulty)
-        shouldUpdateContent(nil)
+        filter.set(difficulty: difficulty)
+        recipes = filter.filterRecipes()
+
         didSelectDifficultyFilter(difficulty)
+        shouldUpdateContent(nil)
     }
 
     func filterByTime(rawValue: String) {
-        guard let filter = filter else {
-            return
-        }
-
         let time = Time(rawValue: rawValue)
-        recipes = filter.filterBy(time: time)
-        shouldUpdateContent(nil)
+        filter.set(time: time)
+        recipes = filter.filterRecipes()
+
         didSelectTimeFilter(time)
+        shouldUpdateContent(nil)
     }
 }
 

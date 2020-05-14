@@ -8,37 +8,41 @@
 
 import Foundation
 
-class RecipeFilter {
-    private var time: Time?
-    private var difficulty: Difficulty?
-    private let recipes: [Recipe]
+class FilterManager {
+    private var recipes: [Recipe] = []
+    private var filters: RecipeFilters
 
-    init(recipes: [Recipe]) {
+    init(filters: RecipeFilters) {
+        self.filters = filters
+    }
+
+    func set(difficulty: Difficulty?) {
+        filters.difficulty = difficulty
+    }
+
+    func set(time: Time?) {
+        filters.time = time
+    }
+
+    func set(recipes: [Recipe]) {
         self.recipes = recipes
     }
 
-    func filterBy(time: Time?) -> [Recipe] {
-        return filterBy(difficulty: difficulty?.rawValue, timeStr: time?.rawValue)
-    }
-
-    func filterBy(difficulty: Difficulty?) -> [Recipe] {
-        return filterBy(difficulty: difficulty?.rawValue, timeStr: time?.rawValue)
-    }
-
-    private func filterBy(difficulty: String?, timeStr: String?) -> [Recipe] {
+    func filterRecipes() -> [Recipe] {
         return recipes.filter({ recipe in
-            var difficultyMatch = true
-            var timeMatch = true
+            var isDifficultyMatch = true
+            var isTimeMatch = true
 
-            if let difficulty = difficulty, let selDifficulty = Difficulty(rawValue: difficulty) {
-                difficultyMatch = selDifficulty == Difficulty(recipe: recipe)
+            if let difficulty = filters.difficulty {
+                isDifficultyMatch = difficulty == Difficulty(recipe: recipe)
             }
 
-            if let timeStr = timeStr, let recipeTime = Time(rawValue: timeStr) {
-                timeMatch = recipeTime == Time(recipe: recipe)
+            if let time = filters.time {
+                isTimeMatch = time == Time(recipe: recipe)
             }
 
-            return difficultyMatch && timeMatch
+            return isDifficultyMatch && isTimeMatch
         })
     }
 }
+
