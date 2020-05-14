@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum Time: String {
+enum PreparationTime: String {
     case quick = "0-10min"
     case medium = "10-20min"
     case slow = "20+min"
     static let allValues = [quick, medium, slow]
 }
 
-extension Time {
+extension PreparationTime {
     init?(recipe: Recipe) {
         
         switch recipe.timers.reduce(0, +) {
