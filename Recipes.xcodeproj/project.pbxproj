@@ -215,6 +215,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		0536143E246DF577008560A9 /* DependecyContainer */ = {
+			isa = PBXGroup;
+			children = (
+				0536143A246DEB20008560A9 /* DependecyContainer.swift */,
+				0536143C246DEE6F008560A9 /* RecipesViewControllerFactory.swift */,
+			);
+			path = DependecyContainer;
+			sourceTree = "<group>";
+		};
+		0536143F246DF590008560A9 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				050F74C220D4429F00420F9F /* RecipeList */,
+				0551FE9020D67080001266A2 /* RecipeDetails */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		0551FE9020D67080001266A2 /* RecipeDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,17 +294,15 @@
 			isa = PBXGroup;
 			children = (
 				058C713020D19C8200B5C151 /* AppDelegate.swift */,
+				0536143E246DF577008560A9 /* DependecyContainer */,
 				0529A694246B672200EE2843 /* Extensions */,
 				0519FD3120D26CAB00013285 /* Networking */,
 				05603D8A20D5B14F00686035 /* Filter */,
 				058C715E20D1B09400B5C151 /* Model */,
-				050F74C220D4429F00420F9F /* RecipeList */,
-				0551FE9020D67080001266A2 /* RecipeDetails */,
+				0536143F246DF590008560A9 /* Screens */,
 				058C713920D19C8500B5C151 /* LaunchScreen.storyboard */,
 				05BC4240246D6075001E21CC /* Assets.xcassets */,
 				058C713C20D19C8500B5C151 /* Info.plist */,
-				0536143A246DEB20008560A9 /* DependecyContainer.swift */,
-				0536143C246DEE6F008560A9 /* RecipesViewControllerFactory.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
