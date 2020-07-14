@@ -16,7 +16,7 @@ final class ImageDownloadManager {
     lazy var imageDownloadQueue: OperationQueue = {
         var queue = OperationQueue()
         queue.name = "imageloading.queue"
-        queue.qualityOfService = .userInteractive
+        queue.qualityOfService = .userInitiated
         return queue
     }()
 

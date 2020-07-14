@@ -9,7 +9,7 @@
 import Foundation
 
 protocol Networking {
-    func load<A: Codable>(valueType: A.Type, urlString: String, isRefresh: Bool, completion: @escaping (Result<A, NetworkError>) -> ())
+    func load<A: Codable>(resource: Resource<A>, isRefresh: Bool, completion: @escaping (Result<A, NetworkError>) -> ())
 }
 
 

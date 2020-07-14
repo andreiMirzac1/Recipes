@@ -30,7 +30,7 @@ class RecipesViewModel {
     }
 
     func loadRecipes(isRefresh: Bool = false) {
-        networkService.load(valueType: [Recipe].self, urlString: resource.url, isRefresh: isRefresh) { [weak self] result in
+        networkService.load(resource: resource, isRefresh: isRefresh) { [weak self] result in
             switch result {
             case .failure(let error):
                  self?.shouldUpdateContent(error)

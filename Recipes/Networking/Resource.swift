@@ -8,9 +8,9 @@
 
 import Foundation
 
-public enum HttpMethod {
-    case get
-    case post
+public enum HttpMethod: String {
+    case get = "GET"
+    case post = "POST"
 }
 
 struct Resource<A> {
