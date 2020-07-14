@@ -14,14 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        URLCache.configureSharedURLCache(memoryCapacityInMb: 0, diskCapacityInMb: 30)
+
         window = UIWindow()
         let container = DependencyContainer()
         let viewController = container.makeRecipesViewController()
         window?.rootViewController = UINavigationController(rootViewController: viewController)
         window?.makeKeyAndVisible()
-
-        URLCache.configureSharedURLCache(memoryCapacityInMb: 0, diskCapacityInMb: 30)
-
         return true
     }
 }

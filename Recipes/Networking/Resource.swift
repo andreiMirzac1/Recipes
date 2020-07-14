@@ -8,18 +8,18 @@
 
 import Foundation
 
-public enum HttpMethod: String {
+enum HttpMethod: String {
     case get = "GET"
     case post = "POST"
 }
 
 struct Resource<A> {
 
-    public var url: String
-    public var method: HttpMethod
-    public var parse: (Data) -> A?
+    var url: String
+    var method: HttpMethod
+    var parse: (Data) -> A?
     
-    public init(url: String, parse: @escaping (Data) -> A?, method: HttpMethod = .get) {
+    init(url: String, parse: @escaping (Data) -> A?, method: HttpMethod = .get) {
         self.url = url
         self.method = method
         self.parse = parse

@@ -11,20 +11,21 @@ import XCTest
 
 class NetworkServiceTests: XCTestCase {
 
-    var networkService: NetworkService!
-    let urlString = "http://example.com"
+    var recipesService: RecipesService!
+    var resource = Resource<[Recipe]>(url: "http://example.com", method: .get)
     
     override func setUp() {
         let session = MockNetworkServiceHelper.makeUrlSession()
-        networkService = NetworkService(session: session)
+        let networkService = NetworkService(session: session)
+        recipesService = RecipesService(networking: networkService)
     }
     
     func testNetworkServiceReturnsInvalidStatusCodeError() {
-        let mockData = MockNetworkData(url: urlString, statusCode: 400, data: Data())
+        let mockData = MockNetworkData(url: resource.url, statusCode: 400, data: Data())
         MockNetworkServiceHelper.configure(with: mockData)
 
         let expectation = XCTestExpectation(description: "NetworkService")
-        networkService.load(valueType: [Recipe].self, urlString: urlString) { result in
+        recipesService.loadRecipes() { result in
             switch result {
             case .failure(let error):
                 XCTAssert(error == .invalidStatusCode)
@@ -38,11 +39,11 @@ class NetworkServiceTests: XCTestCase {
     
     func testNetworkServiceReturnsFailedToParseErrorWhenDataIsInvalid() {
 
-        let mockData = MockNetworkData(url: urlString, statusCode: 200, data: Data())
+        let mockData = MockNetworkData(url: resource.url, statusCode: 200, data: Data())
         MockNetworkServiceHelper.configure(with: mockData)
 
         let expectation = XCTestExpectation(description: "NetworkService")
-         networkService.load(valueType: [Recipe].self, urlString: urlString) { result in
+        recipesService.loadRecipes() { result in
             switch result {
             case .failure(let error):
                 XCTAssert(error == .failureToDecodeData)
@@ -57,11 +58,11 @@ class NetworkServiceTests: XCTestCase {
     func testNetworkServiceLoadsSuccesfully() {
 
         let recipesData = StubLoader.loadData(from: "oneRecipe")!
-        let mockData = MockNetworkData(url: urlString, statusCode: 200, data: recipesData)
+        let mockData = MockNetworkData(url: resource.url, statusCode: 200, data: recipesData)
         MockNetworkServiceHelper.configure(with: mockData)
 
         let expectation = XCTestExpectation(description: "NetworkService")
-        networkService.load(valueType: [Recipe].self, urlString: urlString) { result in
+        recipesService.loadRecipes() { result in
             switch result {
             case .failure:
                 XCTFail("Expected a success result")
