@@ -10,7 +10,10 @@ import Foundation
 
 extension URLCache {
     static func configureSharedURLCache(memoryCapacityInMb: Int, diskCapacityInMb: Int) {
-        let urlCache = URLCache(memoryCapacity: memoryCapacityInMb * 1024 * 1024, diskCapacity: diskCapacityInMb * 1024 * 1024, diskPath: nil)
+        let memoryCapacityInBytes =  memoryCapacityInMb * 1024 * 1024
+        let diskCapacityInBytes =  diskCapacityInMb * 1024 * 1024
+
+        let urlCache = URLCache(memoryCapacity: memoryCapacityInBytes, diskCapacity: diskCapacityInBytes, diskPath: nil)
         URLCache.shared = urlCache
     }
 }

@@ -18,9 +18,8 @@ class DependencyContainer {
 
 extension DependencyContainer: RecipesViewControllerFactory {
     func makeRecipesViewModel() -> RecipesViewModel {
-        let url = "https://mobile.asosservices.com/sampleapifortest/recipes.json"
-        let resource = Resource<[Recipe]>(url: url)
-        return RecipesViewModel(networkService: networkService, resource: resource)
+        let service = RecipesService(networking: NetworkService())
+        return RecipesViewModel(recipesService: service)
     }
     
     func makeFilterDifficultyTitles() -> [String] {

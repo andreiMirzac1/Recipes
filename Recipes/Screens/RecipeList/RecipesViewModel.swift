@@ -20,20 +20,18 @@ class RecipesViewModel {
 
     private var filter = FilterManager(filters: RecipeFilters())
 
-    private let networkService: Networking
-    private let resource: Resource<[Recipe]>
+    private let recipesService: RecipesService
     private(set) var recipes: [Recipe] = []
 
-    init(networkService: Networking, resource: Resource<[Recipe]>) {
-        self.networkService = networkService
-        self.resource = resource
+    init(recipesService: RecipesService) {
+        self.recipesService = recipesService
     }
-
+    
     func loadRecipes(isRefresh: Bool = false) {
-        networkService.load(resource: resource, isRefresh: isRefresh) { [weak self] result in
+        recipesService.loadRecipes(isRefresh: isRefresh) { [weak self] result in
             switch result {
             case .failure(let error):
-                 self?.shouldUpdateContent(error)
+                self?.shouldUpdateContent(error)
             case .success(let recipes):
                 self?.updateRecipes(recipes: recipes)
             }

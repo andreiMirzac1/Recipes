@@ -10,18 +10,20 @@ import UIKit
 
 class RecipesViewController: UIViewController {
 
-    @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var difficultyButton: UIButton!
-    @IBOutlet var timeButton: UIButton!
+    @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var difficultyButton: UIButton!
+    @IBOutlet private var timeButton: UIButton!
     private let refreshControl = UIRefreshControl()
 
-    let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
-    let columns: CGFloat = 2
-    let spaceBetweenRows: CGFloat = 20
-    let spaceBetweenColumns: CGFloat = 0
-    let interitemSpacing: CGFloat = 10
+    private struct Constants {
+        static let sectionInsets = UIEdgeInsets(top: 20.0, left: 5.0, bottom: 20.0, right: 5.0)
+        static let columns: CGFloat = 2
+        static let spaceBetweenRows: CGFloat = 20
+        static let spaceBetweenColumns: CGFloat = 0
+        static let interitemSpacing: CGFloat = 10
+    }
 
-    let factory: RecipesViewControllerFactory
+    private let factory: RecipesViewControllerFactory
     private lazy var viewModel = factory.makeRecipesViewModel()
 
     init(factory: RecipesViewControllerFactory) {
@@ -43,7 +45,7 @@ class RecipesViewController: UIViewController {
         viewModel.loadRecipes()
     }
 
-    func bindToViewModel() {
+    private func bindToViewModel() {
         viewModel.shouldUpdateContent = { [weak self] error in
             self?.collectionView.reloadData()
             self?.refreshControl.endRefreshing()
@@ -62,28 +64,28 @@ class RecipesViewController: UIViewController {
         }
     }
 
-    func registerCells() {
+    private func registerCells() {
         let nib = UINib(nibName: RecipeListViewCell.reuseIdentifier , bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: RecipeListViewCell.reuseIdentifier)
     }
 
-    func setUpRefreshControl() {
+    private func setUpRefreshControl() {
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
 
-    @objc func pullToRefresh(refreshControl: UIRefreshControl) {
+    @objc private func pullToRefresh(refreshControl: UIRefreshControl) {
         viewModel.loadRecipes(isRefresh: true)
     }
 
-    func showAlert(title: String, message: String?) {
+    private func showAlert(title: String, message: String?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alertController.addAction(okAction)
         self.present(alertController, animated: true)
     }
 
-    func styleFilterButtons() {
+    private func styleFilterButtons() {
         difficultyButton.layer.cornerRadius = 15
         timeButton.layer.cornerRadius = 15
     }
@@ -92,7 +94,7 @@ class RecipesViewController: UIViewController {
 //MARK: - AlertController Factory
 extension RecipesViewController {
 
-    @IBAction func filterByPreparationTime(sender: UIButton) {
+    @IBAction private func filterByPreparationTime(sender: UIButton) {
         let actionClosure: (UIAlertAction) -> () = { action in
             guard let title = action.title else {
                 return
@@ -104,7 +106,7 @@ extension RecipesViewController {
         present(alertController, animated: true)
     }
 
-    @IBAction func filterByDifficulty(sender: UIButton) {
+    @IBAction private func filterByDifficulty(sender: UIButton) {
         let actionClosure: (UIAlertAction) -> () = { action in
             guard let title = action.title else {
                 return
@@ -139,9 +141,9 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         //Width
         let screenWidth = UIScreen.main.bounds.width
-        let paddingSpace = sectionInsets.left * (columns)
-        let availableWidth = screenWidth - paddingSpace - interitemSpacing
-        let width = availableWidth / columns
+        let paddingSpace = Constants.sectionInsets.left * (Constants.columns)
+        let availableWidth = screenWidth - paddingSpace - Constants.interitemSpacing
+        let width = availableWidth / Constants.columns
 
         let height = width + (width / 2)
 
@@ -151,15 +153,15 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
+        return Constants.sectionInsets
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return spaceBetweenColumns
+        return Constants.spaceBetweenColumns
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spaceBetweenRows
+        return Constants.spaceBetweenRows
     }
 
 }

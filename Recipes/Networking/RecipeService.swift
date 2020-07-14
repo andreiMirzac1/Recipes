@@ -10,12 +10,14 @@ import Foundation
 
 class RecipesService {
     let networking: Networking
-
+    
     init(networking: Networking = NetworkService()) {
         self.networking = networking
     }
-
-    func loadRecipes() {
-
+    
+    func loadRecipes(isRefresh: Bool = false, completion: @escaping (Result<[Recipe], NetworkError>) -> ()) {
+        let url = "https://mobile.asosservices.com/sampleapifortest/recipes.json"
+        let resource = Resource<[Recipe]>(url: url)
+        networking.load(resource: resource, isRefresh: isRefresh, completion: completion)
     }
 }
